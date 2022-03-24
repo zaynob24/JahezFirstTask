@@ -5,6 +5,7 @@ import com.example.jahezfirsttask.data.remote.dto.RestaurantDto
 import com.example.jahezfirsttask.domain.repository.IRestaurantRepository
 import javax.inject.Inject
 
+
 class RestaurantRepositoryImpl @Inject constructor(
     private val api : IJahezRestaurantsApi
 ) :IRestaurantRepository {
