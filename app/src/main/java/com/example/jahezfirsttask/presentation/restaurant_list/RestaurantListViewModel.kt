@@ -6,7 +6,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.jahezfirsttask.common.Resource
 import com.example.jahezfirsttask.domain.use_case.restaurant_list.GetRestaurantUseCase
+import com.example.jahezfirsttask.presentation.login.LoginState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
@@ -17,8 +20,10 @@ class RestaurantListViewModel  @Inject constructor(
     private val getRestaurantUseCase : GetRestaurantUseCase
 ):ViewModel() {
 
-    private val _state = mutableStateOf(RestaurantListState())
-    val state: State<RestaurantListState> = _state
+
+    //state Flow
+    private val _stateFlow = MutableStateFlow(RestaurantListState())
+    val stateFlow = _stateFlow.asStateFlow()
 
     init {
         getRestaurant()
@@ -30,14 +35,14 @@ class RestaurantListViewModel  @Inject constructor(
             when (result) {
 
                 is Resource.Success -> {
-                    _state.value = RestaurantListState(restaurant = result.data?: emptyList())
+                    _stateFlow.value = RestaurantListState(restaurant = result.data?: emptyList())
                 }
                 is Resource.Error -> {
-                    _state.value = RestaurantListState(error = result.message?:"An unaccepted error accrue")
+                    _stateFlow.value = RestaurantListState(error = result.message?:"An unaccepted error accrue")
                 }
 
                 is Resource.Loading -> {
-                    _state.value = RestaurantListState(isLoading = true)
+                    _stateFlow.value = RestaurantListState(isLoading = true)
                 }
             }
 
