@@ -49,6 +49,10 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
+        //------------------------------------------------check user authentication ------------------------------------------------------------//
+
+
         /////////////////////////////////////////////////////////////////
         //-----------------CHECK LOGIN----------------------------//
 
@@ -72,7 +76,9 @@ class LoginFragment : Fragment() {
         }
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+        //------------------------------------------------login------------------------------------------------------------//
 
+        //Login
         binding.loginButton.setOnClickListener {
 
             collectDataFromUser() // to collect items data from all fields
@@ -87,6 +93,7 @@ class LoginFragment : Fragment() {
         }
 
 
+        //Login stateFlow
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 loginViewModel.stateFlow.collectLatest { loginState ->
@@ -122,7 +129,7 @@ class LoginFragment : Fragment() {
     }
 
 
-    //------------------------------------------------------------------------------------------------------------//
+    //------------------------------------------------collectData------------------------------------------------------------//
 
     // to collect post data from all fields
     private fun collectDataFromUser() {
@@ -132,7 +139,7 @@ class LoginFragment : Fragment() {
 
     }
 
-    //--------------------------------------------------------------------------------------------------------------//
+    //--------------------------------------------------check Data Validity------------------------------------------------------------//
 
     // to check if all field contain data and give error massage if not
     private fun checkDataValidity() : Boolean {

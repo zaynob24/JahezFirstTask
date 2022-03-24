@@ -11,4 +11,6 @@ interface AuthRepository {
     // Login
     suspend fun firebaseLogin(email: String, password: String): AuthResult
 
+    // check if user already logged in (user login state)
+    fun isUserAuthenticatedInFirebase(): Boolean
 }

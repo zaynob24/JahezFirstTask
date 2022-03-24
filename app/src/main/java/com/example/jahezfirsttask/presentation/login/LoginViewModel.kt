@@ -3,7 +3,8 @@ package com.example.jahezfirsttask.presentation.login
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.jahezfirsttask.common.Resource
-import com.example.jahezfirsttask.domain.use_case.SigneInWithEmailPassword
+import com.example.jahezfirsttask.domain.use_case.authentication.IsUserAuthenticated
+import com.example.jahezfirsttask.domain.use_case.authentication.SigneInWithEmailPassword
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -13,15 +14,20 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val signeInUseCase: SigneInWithEmailPassword
+    private val signeInUseCase: SigneInWithEmailPassword,
+    private val isUserAuthenticatedUseCase: IsUserAuthenticated
+
 ) : ViewModel() {
 
+    //check user authentication (if user already logged in or not)
+
+     //----------------------------------------------------------------------------------------------//
 
     //state Flow
     private val _stateFlow = MutableStateFlow(LoginState())
     val stateFlow = _stateFlow.asStateFlow()
 
-
+    //Login
      fun login(email: String, password: String) {
 
         signeInUseCase(email, password).onEach { result ->

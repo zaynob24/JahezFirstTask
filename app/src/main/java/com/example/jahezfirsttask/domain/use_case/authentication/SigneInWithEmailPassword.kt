@@ -1,4 +1,4 @@
-package com.example.jahezfirsttask.domain.use_case
+package com.example.jahezfirsttask.domain.use_case.authentication
 
 import com.example.jahezfirsttask.common.Resource
 import com.example.jahezfirsttask.domain.repository.AuthRepository

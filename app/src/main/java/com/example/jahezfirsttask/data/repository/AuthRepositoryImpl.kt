@@ -14,5 +14,8 @@ class AuthRepositoryImpl @Inject constructor(
         return auth.signInWithEmailAndPassword(email,password).await()
     }
 
+    override fun isUserAuthenticatedInFirebase(): Boolean {
+        return auth.currentUser != null
+    }
 
 }
