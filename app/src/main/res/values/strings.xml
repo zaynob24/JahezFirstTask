@@ -1,3 +1,26 @@
 <resources>
     <string name="app_name">JahezFirstTask</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!--    SignUp and Login -->
+    <string name="hello">Hello</string>
+    <string name="hello_login_massage">Let’s see restaurants !</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="forget_password">Forget Password?</string>
+    <string name="Login">Login</string>
+    <string name="SignUp">Sign Up</string>
+    <string name="no_account_massage">Don’t Have Account?</string>
+    <string name="welcome">Welcome</string>
+    <string name="welcome_SignUp_massage">Join us in Jahez!</string>
+    <string name="full_name">Full Name</string>
+    <string name="have_account_massage">Already Have Account?</string>
+
+    <!-- Error massage -->
+    <string name="required">Required</string>
+    <string name="fill_required">please fill required</string>
+
+
 </resources>

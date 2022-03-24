@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "6638842089",
+    "project_id": "jahezfirsttask",
+    "storage_bucket": "jahezfirsttask.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:6638842089:android:459ee3f79406024d560078",
+        "android_client_info": {
+          "package_name": "com.example.jahezfirsttask"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "6638842089-tobgaiatbdo2fk6d9knm917ecbk09teo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCMJ3v-t4KiOwqMwwNjBiSj0twB3iZuWg4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "6638842089-tobgaiatbdo2fk6d9knm917ecbk09teo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
