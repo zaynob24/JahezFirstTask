@@ -32,14 +32,12 @@ class LoginFragment : Fragment() {
 
     private val loginViewModel : LoginViewModel by activityViewModels()
 
-    private lateinit var progressDialog: ProgressDialog
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // Inflate the layout for this fragment
 
+        // Inflate the layout for this fragment
         binding = FragmentLoginBinding.inflate(layoutInflater, container, false)
         return binding.root
 

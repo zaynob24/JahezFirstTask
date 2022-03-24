@@ -6,7 +6,7 @@ import com.google.firebase.auth.AuthResult
 import kotlinx.coroutines.flow.Flow
 import retrofit2.http.GET
 
-interface AuthRepository {
+interface IAuthRepository {
 
     // Login
     suspend fun firebaseLogin(email: String, password: String): AuthResult

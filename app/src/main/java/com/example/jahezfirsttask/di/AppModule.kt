@@ -1,7 +1,7 @@
 package com.example.jahezfirsttask.di
 
 import com.example.jahezfirsttask.data.repository.AuthRepositoryImpl
-import com.example.jahezfirsttask.domain.repository.AuthRepository
+import com.example.jahezfirsttask.domain.repository.IAuthRepository
 import com.google.firebase.auth.FirebaseAuth
 import dagger.Module
 import dagger.Provides
@@ -19,7 +19,7 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideFirebaseRepository(auth : FirebaseAuth): AuthRepository {
+    fun provideFirebaseRepository(auth : FirebaseAuth): IAuthRepository {
         return AuthRepositoryImpl(auth)
     }
 }
