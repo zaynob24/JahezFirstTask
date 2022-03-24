@@ -9,6 +9,6 @@ import retrofit2.http.GET
 interface AuthRepository {
 
     // Login
-    suspend fun firebaseLogin(email: String, password: String): Task<AuthResult>
+    suspend fun firebaseLogin(email: String, password: String): AuthResult
 
 }

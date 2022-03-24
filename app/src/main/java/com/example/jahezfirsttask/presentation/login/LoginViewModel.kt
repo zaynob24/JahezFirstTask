@@ -1,4 +1,4 @@
-package com.example.jahezfirsttask.presntation.login
+package com.example.jahezfirsttask.presentation.login
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -30,7 +30,7 @@ class LoginViewModel @Inject constructor(
 
                 is Resource.Success -> {
 
-                    _stateFlow.value = LoginState(isLogin = true)
+                    _stateFlow.value = LoginState(isSuccess = true)
                 }
 
                 is Resource.Error -> {

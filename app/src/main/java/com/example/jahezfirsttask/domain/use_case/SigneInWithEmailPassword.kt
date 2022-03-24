@@ -20,6 +20,9 @@ class SigneInWithEmailPassword @Inject constructor(
             repository.firebaseLogin(email, password)
             emit(Resource.Success(true))
 
+        } catch (e: Exception) {
+            emit(Resource.Error(e.localizedMessage?:"Un  unexpected error occurred"))
+
         }catch (e: HttpException){
 
             emit(Resource.Error(e.localizedMessage?:"Un  unexpected error occurred"))
