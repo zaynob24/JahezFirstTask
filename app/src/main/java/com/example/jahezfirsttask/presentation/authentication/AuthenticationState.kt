@@ -1,6 +1,6 @@
-package com.example.jahezfirsttask.presentation.login
+package com.example.jahezfirsttask.presentation.authentication
 
-data class LoginState(
+data class AuthenticationState(
 
     val isLoading : Boolean = false,
     val isSuccess : Boolean = false,

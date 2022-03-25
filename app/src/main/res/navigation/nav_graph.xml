@@ -15,10 +15,28 @@
             app:destination="@id/restaurantListFragment"
             app:popUpTo="@id/loginFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_loginFragment_to_registerFragment"
+            app:destination="@id/registerFragment" />
     </fragment>
     <fragment
         android:id="@+id/restaurantListFragment"
         android:name="com.example.jahezfirsttask.presentation.ui.restaurant_list.RestaurantListFragment"
         android:label="fragment_restaurant_list"
         tools:layout="@layout/fragment_restaurant_list" />
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="com.example.jahezfirsttask.presentation.ui.register.RegisterFragment"
+        android:label="RegisterFragment"
+        tools:layout="@layout/fragment_register"
+        >
+        <action
+            android:id="@+id/action_registerFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_registerFragment_to_restaurantListFragment"
+            app:destination="@id/restaurantListFragment"
+            app:popUpTo="@id/registerFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
 </navigation>

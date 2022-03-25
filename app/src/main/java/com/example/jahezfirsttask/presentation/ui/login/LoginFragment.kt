@@ -1,6 +1,5 @@
 package com.example.jahezfirsttask.presentation.ui.login
 
-import android.app.ProgressDialog
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -15,7 +14,6 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.example.jahezfirsttask.R
 import com.example.jahezfirsttask.databinding.FragmentLoginBinding
-import com.example.jahezfirsttask.presentation.login.LoginViewModel
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -47,6 +45,13 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        //------------------------------------------------nave to Register Fragment ------------------------------------------------------------//
+
+         //to open Register Fragment
+        binding.signupTextView.setOnClickListener {
+            findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
+
+        }
 
         //------------------------------------------------check user authentication ------------------------------------------------------------//
 

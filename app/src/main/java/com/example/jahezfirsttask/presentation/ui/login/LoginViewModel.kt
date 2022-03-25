@@ -1,10 +1,11 @@
-package com.example.jahezfirsttask.presentation.login
+package com.example.jahezfirsttask.presentation.ui.login
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.jahezfirsttask.common.Resource
 import com.example.jahezfirsttask.domain.use_case.authentication.IsUserAuthenticatedUseCase
 import com.example.jahezfirsttask.domain.use_case.authentication.LoginUseCase
+import com.example.jahezfirsttask.presentation.authentication.AuthenticationState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -24,7 +25,7 @@ class LoginViewModel @Inject constructor(
      //----------------------------------------------------------------------------------------------//
 
     //state Flow
-    private val _stateFlow = MutableStateFlow(LoginState())
+    private val _stateFlow = MutableStateFlow(AuthenticationState())
     val stateFlow = _stateFlow.asStateFlow()
 
     //Login
@@ -36,18 +37,18 @@ class LoginViewModel @Inject constructor(
 
                 is Resource.Success -> {
 
-                    _stateFlow.value = LoginState(isSuccess = true)
+                    _stateFlow.value = AuthenticationState(isSuccess = true)
                 }
 
                 is Resource.Error -> {
 
                     _stateFlow.value =
-                        LoginState(error = result.message ?: "An unaccepted error accrue")
+                        AuthenticationState(error = result.message ?: "An unaccepted error accrue")
                 }
 
                 is Resource.Loading -> {
 
-                    _stateFlow.value = LoginState(isLoading = true)
+                    _stateFlow.value = AuthenticationState(isLoading = true)
 
                 }
             }
