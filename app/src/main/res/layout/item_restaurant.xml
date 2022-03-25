@@ -4,7 +4,9 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+
       <data>
+          <import type="android.view.View"/>
           <variable
               name="item"
               type="com.example.jahezfirsttask.domain.model.Restaurant" />
@@ -31,6 +33,7 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_gravity="end"
+                android:visibility="@{item.hasOffer ? View.VISIBLE : View.GONE}"
                 app:srcCompat="@drawable/discount" />
 
             <ImageView
