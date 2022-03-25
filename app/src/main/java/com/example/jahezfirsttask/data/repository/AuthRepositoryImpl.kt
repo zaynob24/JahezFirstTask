@@ -9,8 +9,15 @@ import javax.inject.Inject
 class AuthRepositoryImpl @Inject constructor(
     private val auth : FirebaseAuth
 ):IAuthRepository {
+
+    //Login
     override suspend fun firebaseLogin(email: String, password: String): AuthResult {
         return auth.signInWithEmailAndPassword(email,password).await()
+    }
+
+    // Register user in firebase
+    override suspend fun firebaseRegister(email: String, password: String): AuthResult {
+        return auth.createUserWithEmailAndPassword(email,password).await()
     }
 
     override fun isUserAuthenticatedInFirebase(): Boolean {

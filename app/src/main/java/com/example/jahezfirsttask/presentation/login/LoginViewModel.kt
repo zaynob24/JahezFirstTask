@@ -3,8 +3,8 @@ package com.example.jahezfirsttask.presentation.login
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.jahezfirsttask.common.Resource
-import com.example.jahezfirsttask.domain.use_case.authentication.IsUserAuthenticated
-import com.example.jahezfirsttask.domain.use_case.authentication.SigneInWithEmailPassword
+import com.example.jahezfirsttask.domain.use_case.authentication.IsUserAuthenticatedUseCase
+import com.example.jahezfirsttask.domain.use_case.authentication.LoginUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -14,8 +14,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val signeInUseCase: SigneInWithEmailPassword,
-    private val isUserAuthenticatedUseCase: IsUserAuthenticated
+    private val signeInUseCase: LoginUseCase,
+    private val isUserAuthenticatedUseCaseUseCase: IsUserAuthenticatedUseCase
 
 ) : ViewModel() {
 
