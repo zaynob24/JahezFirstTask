@@ -4,10 +4,7 @@ import com.example.jahezfirsttask.domain.repository.IAuthRepository
 import javax.inject.Inject
 
 class IsUserAuthenticatedUseCase @Inject constructor(
-    private val repositoryI: IAuthRepository
+    private val repository: IAuthRepository
 )  {
-    //operator fun invoke() = repository.isUserAuthenticatedInFirebase()
-     val isUserAuthenticated = repositoryI.isUserAuthenticatedInFirebase()
-
-
+    operator fun invoke() = repository.isUserAuthenticatedInFirebase()
 }

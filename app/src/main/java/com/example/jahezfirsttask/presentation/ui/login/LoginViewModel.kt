@@ -11,16 +11,19 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import okhttp3.Interceptor.Companion.invoke
 import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     private val signeInUseCase: LoginUseCase,
-    private val isUserAuthenticatedUseCaseUseCase: IsUserAuthenticatedUseCase
+    private val isUserAuthenticatedUseCase: IsUserAuthenticatedUseCase
 
 ) : ViewModel() {
 
     //check user authentication (if user already logged in or not)
+
+    fun isUserAuthenticated()= isUserAuthenticatedUseCase.invoke()
 
      //----------------------------------------------------------------------------------------------//
 

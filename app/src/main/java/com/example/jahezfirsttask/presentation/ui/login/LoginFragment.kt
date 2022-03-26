@@ -55,12 +55,12 @@ class LoginFragment : Fragment() {
 
         //------------------------------------------------check user authentication ------------------------------------------------------------//
 
+        // check if user already loggedIn go to homepage(restaurantListFragment)
+         if(loginViewModel.isUserAuthenticated())
+         {
+             findNavController().navigate(R.id.action_loginFragment_to_restaurantListFragment)
+         }
 
-
-
-
-
-        /////////////////////////////////////////////////////////////////
         //-----------------CHECK LOGIN----------------------------//
 
         //TODO : erase it

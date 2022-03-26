@@ -101,7 +101,7 @@ class RestaurantListFragment : Fragment() {
         super.onCreateOptionsMenu(menu, inflater)
     }
 
-    //TODO
+    //filter restaurant based on offer or distance
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
 

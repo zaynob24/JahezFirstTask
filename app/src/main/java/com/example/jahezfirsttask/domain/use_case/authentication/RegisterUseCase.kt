@@ -9,7 +9,7 @@ import java.io.IOException
 import javax.inject.Inject
 
 class RegisterUseCase @Inject constructor(
-    private val repositoryI: IAuthRepository
+    private val repository: IAuthRepository
 ) {
 
     operator fun invoke(email: String, password: String) : Flow<Resource<Boolean>> = flow {
@@ -17,7 +17,7 @@ class RegisterUseCase @Inject constructor(
         try {
             // here we emit loading so in ui we show progress bar
             emit(Resource.Loading())
-            repositoryI.firebaseRegister(email, password)
+            repository.firebaseRegister(email, password)
             emit(Resource.Success(true))
 
         } catch (e: Exception) {
