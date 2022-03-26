@@ -3,6 +3,7 @@ package com.example.jahezfirsttask.presentation.restaurant_list
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.jahezfirsttask.common.Resource
+import com.example.jahezfirsttask.domain.use_case.authentication.SignOutUseCase
 import com.example.jahezfirsttask.domain.use_case.restaurant_list.GetRestaurantUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -12,11 +13,20 @@ import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 
+private const val TAG = "RestaurantListViewModel"
 @HiltViewModel
 class RestaurantListViewModel  @Inject constructor(
-    private val getRestaurantUseCase : GetRestaurantUseCase
+    private val getRestaurantUseCase : GetRestaurantUseCase,
+    private val signOutUseCase: SignOutUseCase
+
 ):ViewModel() {
 
+    //------------------------------------------authentication----------------------------------------------------//
+
+    //signOut
+    fun signOut()= signOutUseCase.invoke()
+
+    //------------------------------------------get Restaurant----------------------------------------------------//
 
     //state Flow
     private val _stateFlow = MutableStateFlow(RestaurantListState())

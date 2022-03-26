@@ -61,27 +61,6 @@ class LoginFragment : Fragment() {
              findNavController().navigate(R.id.action_loginFragment_to_restaurantListFragment)
          }
 
-        //-----------------CHECK LOGIN----------------------------//
-
-        //TODO : erase it
-        binding.isloginbutton.setOnClickListener {
-            FirebaseAuth.getInstance().currentUser?.let {
-                // user logged in!
-                binding.isLoginTv.text = FirebaseAuth.getInstance().currentUser?.email.toString()
-
-            }?:run {
-                // user are not logged in
-                binding.isLoginTv.text = "logout"
-            }
-        }
-                        //-----------------LOGOUT----------------------------//
-        //TODO : erase it
-        //LogOut
-        binding.logoutButton.setOnClickListener {
-            FirebaseAuth.getInstance().signOut()
-            binding.isLoginTv.text = "logout"
-        }
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         //------------------------------------------------login------------------------------------------------------------//
 
@@ -99,11 +78,10 @@ class LoginFragment : Fragment() {
             }
         }
 
-
-        //Login stateFlow
+        //Login sharedFlow
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                loginViewModel.stateFlow.collectLatest { loginState ->
+                loginViewModel.sharedFlow.collectLatest { loginState ->
 
                      when{
 

@@ -23,7 +23,13 @@
         android:id="@+id/restaurantListFragment"
         android:name="com.example.jahezfirsttask.presentation.ui.restaurant_list.RestaurantListFragment"
         android:label="fragment_restaurant_list"
-        tools:layout="@layout/fragment_restaurant_list" />
+        tools:layout="@layout/fragment_restaurant_list" >
+        <action
+            android:id="@+id/action_restaurantListFragment_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/restaurantListFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
     <fragment
         android:id="@+id/registerFragment"
         android:name="com.example.jahezfirsttask.presentation.ui.register.RegisterFragment"

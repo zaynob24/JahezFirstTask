@@ -10,4 +10,7 @@
     <item android:id="@+id/distance"
         android:title="@string/distance" />
 
+    <item android:id="@+id/signOut"
+        android:title="@string/signOut" />
+
 </menu>

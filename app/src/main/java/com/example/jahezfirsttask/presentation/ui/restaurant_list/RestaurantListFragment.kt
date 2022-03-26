@@ -9,10 +9,12 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import com.example.jahezfirsttask.R
 import com.example.jahezfirsttask.databinding.FragmentRestaurantListBinding
 import com.example.jahezfirsttask.presentation.restaurant_list.RestaurantListAdapter
 import com.example.jahezfirsttask.presentation.restaurant_list.RestaurantListViewModel
+import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -121,6 +123,14 @@ class RestaurantListFragment : Fragment() {
                 Log.d(TAG,"distance")
                 restaurantListAdapter.submitList(restaurantViewModel.stateFlow.value.restaurant.sortedByDescending { it.distance })
                 Log.d(TAG,restaurantViewModel.stateFlow.value.restaurant.sortedByDescending { it.distance }.toString())
+                true
+            }
+
+            R.id.signOut -> {
+                Log.d(TAG,"signOut")
+                Log.d(TAG, FirebaseAuth.getInstance().currentUser?.email.toString())
+                restaurantViewModel.signOut()
+                findNavController().navigate(R.id.action_restaurantListFragment_to_loginFragment)
                 true
             }
             else -> super.onOptionsItemSelected(item)

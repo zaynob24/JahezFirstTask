@@ -16,4 +16,7 @@ interface IAuthRepository {
 
     // check if user already logged in (user login state)
     fun isUserAuthenticatedInFirebase(): Boolean
+
+    // Sign out
+    fun signOut()
 }

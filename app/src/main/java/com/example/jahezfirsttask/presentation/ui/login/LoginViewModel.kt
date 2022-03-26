@@ -5,34 +5,36 @@ import androidx.lifecycle.viewModelScope
 import com.example.jahezfirsttask.common.Resource
 import com.example.jahezfirsttask.domain.use_case.authentication.IsUserAuthenticatedUseCase
 import com.example.jahezfirsttask.domain.use_case.authentication.LoginUseCase
+import com.example.jahezfirsttask.domain.use_case.authentication.SignOutUseCase
 import com.example.jahezfirsttask.presentation.authentication.AuthenticationState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.*
 import okhttp3.Interceptor.Companion.invoke
 import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     private val signeInUseCase: LoginUseCase,
-    private val isUserAuthenticatedUseCase: IsUserAuthenticatedUseCase
+    private val isUserAuthenticatedUseCase: IsUserAuthenticatedUseCase,
 
 ) : ViewModel() {
 
-    //check user authentication (if user already logged in or not)
 
+    //------------------------------------------authentication----------------------------------------------------//
+
+    //check user authentication (if user already logged in or not)
     fun isUserAuthenticated()= isUserAuthenticatedUseCase.invoke()
 
-     //----------------------------------------------------------------------------------------------//
+     //------------------------------------------FOR LOGIN----------------------------------------------------//
 
-    //state Flow
-    private val _stateFlow = MutableStateFlow(AuthenticationState())
-    val stateFlow = _stateFlow.asStateFlow()
+
+    //shared Flow
+    private val _sharedFlow = MutableSharedFlow<AuthenticationState>()
+    val sharedFlow = _sharedFlow.asSharedFlow()
+
 
     //Login
-     fun login(email: String, password: String) {
+    fun login(email: String, password: String) {
 
         signeInUseCase(email, password).onEach { result ->
 
@@ -40,18 +42,16 @@ class LoginViewModel @Inject constructor(
 
                 is Resource.Success -> {
 
-                    _stateFlow.value = AuthenticationState(isSuccess = true)
+                    _sharedFlow.emit(AuthenticationState(isSuccess = true))
                 }
 
                 is Resource.Error -> {
+                    _sharedFlow.emit( AuthenticationState(error = result.message ?: "An unaccepted error accrue"))
 
-                    _stateFlow.value =
-                        AuthenticationState(error = result.message ?: "An unaccepted error accrue")
                 }
 
                 is Resource.Loading -> {
-
-                    _stateFlow.value = AuthenticationState(isLoading = true)
+                    _sharedFlow.emit( AuthenticationState(isLoading = true))
 
                 }
             }
