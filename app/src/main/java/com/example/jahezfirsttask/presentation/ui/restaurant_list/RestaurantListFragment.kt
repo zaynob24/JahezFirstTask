@@ -2,15 +2,14 @@ package com.example.jahezfirsttask.presentation.ui.restaurant_list
 
 import android.os.Bundle
 import android.util.Log
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.example.jahezfirsttask.R
 import com.example.jahezfirsttask.databinding.FragmentRestaurantListBinding
 import com.example.jahezfirsttask.presentation.restaurant_list.RestaurantListAdapter
 import com.example.jahezfirsttask.presentation.restaurant_list.RestaurantListViewModel
@@ -33,6 +32,8 @@ class RestaurantListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
+        //To make OptionsMenu display in the fragment
+        setHasOptionsMenu(true)
         // Inflate the layout for this fragment
         binding = FragmentRestaurantListBinding.inflate(layoutInflater, container, false)
         return binding.root
@@ -50,7 +51,6 @@ class RestaurantListFragment : Fragment() {
 
         restaurantListAdapter = RestaurantListAdapter()
         binding.itemRecyclerview.adapter = restaurantListAdapter
-
 
         //------------------------------------------------Get Restaurant List------------------------------------------------------------//
 
@@ -93,5 +93,37 @@ class RestaurantListFragment : Fragment() {
         }
 
     }
+    //------------------------------------------------Options Menu filtering ------------------------------------------------------------//
 
+    //to show OptionsMenu
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.options_menu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    //TODO
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+
+            R.id.show_all -> {
+                Log.d(TAG,"show_all")
+                restaurantListAdapter.submitList(restaurantViewModel.stateFlow.value.restaurant)
+                Log.d(TAG,restaurantViewModel.stateFlow.value.restaurant.toString())
+                true
+            }
+            R.id.offers -> {
+                Log.d(TAG,"offers")
+                restaurantListAdapter.submitList(restaurantViewModel.stateFlow.value.restaurant.filter { it.hasOffer })
+                Log.d(TAG,restaurantViewModel.stateFlow.value.restaurant.filter { it.hasOffer }.toString())
+                true
+            }
+            R.id.distance -> {
+                Log.d(TAG,"distance")
+                restaurantListAdapter.submitList(restaurantViewModel.stateFlow.value.restaurant.sortedByDescending { it.distance })
+                Log.d(TAG,restaurantViewModel.stateFlow.value.restaurant.sortedByDescending { it.distance }.toString())
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
 }

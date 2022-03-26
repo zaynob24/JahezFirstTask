@@ -28,4 +28,9 @@
     <string name="password_not_match">Password doesn\'t match</string>
 
 
+    <string name="offer">Offer</string>
+    <string name="distance">Distance</string>
+    <string name="show_all">All Restaurant</string>
+
+
 </resources>
