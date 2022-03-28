@@ -1,4 +1,4 @@
-package com.example.jahezfirsttask.domain.use_case.restaurant_list
+package com.example.jahezfirsttask.domain.useCase.restaurantList
 
 import com.example.jahezfirsttask.common.Resource
 import com.example.jahezfirsttask.data.remote.dto.toRestaurant

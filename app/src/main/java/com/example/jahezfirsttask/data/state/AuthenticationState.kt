@@ -1,4 +1,4 @@
-package com.example.jahezfirsttask.presentation.authentication
+package com.example.jahezfirsttask.data.state
 
 data class AuthenticationState(
 

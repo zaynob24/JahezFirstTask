@@ -1,4 +1,4 @@
-package com.example.jahezfirsttask.presentation.restaurant_list
+package com.example.jahezfirsttask.presentation.restaurantList
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

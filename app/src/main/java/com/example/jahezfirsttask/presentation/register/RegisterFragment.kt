@@ -1,4 +1,4 @@
-package com.example.jahezfirsttask.presentation.ui.register
+package com.example.jahezfirsttask.presentation.register
 
 import android.os.Bundle
 import android.util.Log
@@ -13,10 +13,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.example.jahezfirsttask.R
-import com.example.jahezfirsttask.databinding.FragmentLoginBinding
 import com.example.jahezfirsttask.databinding.FragmentRegisterBinding
-import com.example.jahezfirsttask.presentation.authentication.util.RegisterValidations
-import com.example.jahezfirsttask.presentation.ui.login.LoginViewModel
+import com.example.jahezfirsttask.presentation.util.Validations
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -32,7 +30,7 @@ class RegisterFragment : Fragment() {
     private lateinit var  password: String
     private lateinit var  confirmPassword: String
 
-    private val validator = RegisterValidations()
+    private val validator = Validations()
     private val RegisterViewModel : RegisterViewModel by activityViewModels()
 
     override fun onCreateView(

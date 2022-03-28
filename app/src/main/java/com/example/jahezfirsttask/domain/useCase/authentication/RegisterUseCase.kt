@@ -1,4 +1,4 @@
-package com.example.jahezfirsttask.domain.use_case.authentication
+package com.example.jahezfirsttask.domain.useCase.authentication
 
 import com.example.jahezfirsttask.common.Resource
 import com.example.jahezfirsttask.domain.repository.IAuthRepository

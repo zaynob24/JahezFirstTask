@@ -1,10 +1,11 @@
-package com.example.jahezfirsttask.presentation.restaurant_list
+package com.example.jahezfirsttask.presentation.restaurantList
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.jahezfirsttask.common.Resource
-import com.example.jahezfirsttask.domain.use_case.authentication.SignOutUseCase
-import com.example.jahezfirsttask.domain.use_case.restaurant_list.GetRestaurantUseCase
+import com.example.jahezfirsttask.data.state.RestaurantListState
+import com.example.jahezfirsttask.domain.useCase.authentication.SignOutUseCase
+import com.example.jahezfirsttask.domain.useCase.restaurantList.GetRestaurantUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

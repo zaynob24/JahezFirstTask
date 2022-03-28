@@ -11,10 +11,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.JahezFirstTask">
         <activity
-            android:name=".presentation.ui.main.MainActivity"
+            android:name=".base.MainActivity"
             android:exported="false" />
         <activity
-            android:name=".presentation.ui.main.Splash"
+            android:name=".base.Splash"
             android:exported="true"
             android:theme="@style/Splash">
             <intent-filter>

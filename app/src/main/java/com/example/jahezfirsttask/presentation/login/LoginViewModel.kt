@@ -1,15 +1,13 @@
-package com.example.jahezfirsttask.presentation.ui.login
+package com.example.jahezfirsttask.presentation.login
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.jahezfirsttask.common.Resource
-import com.example.jahezfirsttask.domain.use_case.authentication.IsUserAuthenticatedUseCase
-import com.example.jahezfirsttask.domain.use_case.authentication.LoginUseCase
-import com.example.jahezfirsttask.domain.use_case.authentication.SignOutUseCase
-import com.example.jahezfirsttask.presentation.authentication.AuthenticationState
+import com.example.jahezfirsttask.domain.useCase.authentication.IsUserAuthenticatedUseCase
+import com.example.jahezfirsttask.domain.useCase.authentication.LoginUseCase
+import com.example.jahezfirsttask.data.state.AuthenticationState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
-import okhttp3.Interceptor.Companion.invoke
 import javax.inject.Inject
 
 @HiltViewModel

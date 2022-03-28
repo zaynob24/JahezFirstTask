@@ -1,10 +1,10 @@
-package com.example.jahezfirsttask.presentation.ui.register
+package com.example.jahezfirsttask.presentation.register
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.jahezfirsttask.common.Resource
-import com.example.jahezfirsttask.domain.use_case.authentication.RegisterUseCase
-import com.example.jahezfirsttask.presentation.authentication.AuthenticationState
+import com.example.jahezfirsttask.domain.useCase.authentication.RegisterUseCase
+import com.example.jahezfirsttask.data.state.AuthenticationState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

@@ -1,4 +1,4 @@
-package com.example.jahezfirsttask.presentation.restaurant_list
+package com.example.jahezfirsttask.data.state
 
 import com.example.jahezfirsttask.domain.model.Restaurant
 

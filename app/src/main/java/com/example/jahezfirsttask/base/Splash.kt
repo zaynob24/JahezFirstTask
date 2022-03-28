@@ -1,4 +1,4 @@
-package com.example.jahezfirsttask.presentation.ui.main
+package com.example.jahezfirsttask.base
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -23,5 +23,4 @@ class Splash : AppCompatActivity() {
             }
 
         }.start()
-    }
-}
+    }}

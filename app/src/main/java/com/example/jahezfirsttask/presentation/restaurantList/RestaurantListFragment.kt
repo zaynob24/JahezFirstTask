@@ -1,4 +1,4 @@
-package com.example.jahezfirsttask.presentation.ui.restaurant_list
+package com.example.jahezfirsttask.presentation.restaurantList
 
 import android.os.Bundle
 import android.util.Log
@@ -12,8 +12,8 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.example.jahezfirsttask.R
 import com.example.jahezfirsttask.databinding.FragmentRestaurantListBinding
-import com.example.jahezfirsttask.presentation.restaurant_list.RestaurantListAdapter
-import com.example.jahezfirsttask.presentation.restaurant_list.RestaurantListViewModel
+import com.example.jahezfirsttask.presentation.restaurantList.RestaurantListAdapter
+import com.example.jahezfirsttask.presentation.restaurantList.RestaurantListViewModel
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
