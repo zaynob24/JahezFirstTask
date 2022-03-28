@@ -29,7 +29,6 @@ class LoginViewModel @Inject constructor(
     private val _sharedFlow = MutableSharedFlow<AuthenticationState>()
     val sharedFlow = _sharedFlow.asSharedFlow()
 
-
     //Login
     fun login(email: String, password: String) {
 

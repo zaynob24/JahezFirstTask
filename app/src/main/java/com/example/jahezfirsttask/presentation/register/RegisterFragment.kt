@@ -47,31 +47,13 @@ class RegisterFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        //------------------------------------------------nave to Login Fragment ------------------------------------------------------------//
+        clickListener()
+        initCollectFlow()
 
-        //to open Login Fragment
-        binding.loginTextView.setOnClickListener {
-            findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
-
-        }
-
-        //------------------------------------------------Register------------------------------------------------------------//
-
-        //Register
-        binding.signUpButton.setOnClickListener {
-
-            collectDataFromUser() // to collect items data from all fields
-            if (checkDataValidity()){ // to check if all field contain data and give error massage if not
-
-                //call firebase register
-                RegisterViewModel.Register(email, password)
-
-            }else{
-                Toast.makeText(requireContext(),getText(R.string.fill_required), Toast.LENGTH_SHORT).show()
-            }
-        }
+    }
 
 
+    private fun initCollectFlow() {
         //Register stateFlow
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -107,8 +89,28 @@ class RegisterFragment : Fragment() {
         }
     }
 
+    private fun clickListener() {
+        //to open Login Fragment
+        binding.loginTextView.setOnClickListener {
+            findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
+        }
 
-    //------------------------------------------------collectData------------------------------------------------------------//
+        //Register
+        binding.signUpButton.setOnClickListener {
+
+            collectDataFromUser() // to collect items data from all fields
+            if (checkDataValidity()){ // to check if all field contain data and give error massage if not
+
+                //call firebase register
+                RegisterViewModel.Register(email, password)
+
+            }else{
+                Toast.makeText(requireContext(),getText(R.string.fill_required), Toast.LENGTH_SHORT).show()
+            }
+        }
+
+    }
+
 
     // to collect post data from all fields
     private fun collectDataFromUser() {
@@ -120,7 +122,6 @@ class RegisterFragment : Fragment() {
 
     }
 
-    //--------------------------------------------------check Data Validity------------------------------------------------------------//
 
     // to check if all field contain data and give error massage if not
     private fun checkDataValidity() : Boolean {

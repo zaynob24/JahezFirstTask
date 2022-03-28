@@ -14,7 +14,6 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.example.jahezfirsttask.R
 import com.example.jahezfirsttask.databinding.FragmentLoginBinding
-import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -39,30 +38,68 @@ class LoginFragment : Fragment() {
         binding = FragmentLoginBinding.inflate(layoutInflater, container, false)
         return binding.root
 
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        //------------------------------------------------nave to Register Fragment ------------------------------------------------------------//
+        checkUserAuthentication()
+        clickListener()
+        initCollectFlow()
+    }
 
-         //to open Register Fragment
-        binding.signupTextView.setOnClickListener {
-            findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
+    private fun checkUserAuthentication() {
+        // check if user already loggedIn go to homepage(restaurantListFragment)
+        if(loginViewModel.isUserAuthenticated())
+        {
+            findNavController().navigate(R.id.action_loginFragment_to_restaurantListFragment)
+        }
+    }
 
+    //Get Restaurant List by Collect Flow
+    private fun initCollectFlow() {
+        //Login sharedFlow
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                loginViewModel.sharedFlow.collectLatest { loginState ->
+
+                    when{
+
+                        loginState.isLoading ->{
+                            //show progress Bar
+                            binding.progressBar.visibility = View.VISIBLE
+                            Log.d(TAG,"is Loading")
+                        }
+
+                        loginState.isSuccess ->{
+                            //hide progress Bar
+                            binding.progressBar.visibility = View.INVISIBLE
+                            Log.d(TAG,"login Successfully")
+                            findNavController().navigate(R.id.action_loginFragment_to_restaurantListFragment)
+
+                        }
+
+                        loginState.error.isNotBlank() ->{
+                            //hide progress Bar
+                            binding.progressBar.visibility =  View.INVISIBLE
+                            Log.d(TAG,loginState.error)
+                            //show error massage
+                            Toast.makeText(requireActivity(), loginState.error, Toast.LENGTH_SHORT).show()
+                        }
+
+                    }
+                }
+            }
         }
 
-        //------------------------------------------------check user authentication ------------------------------------------------------------//
+    }
 
-        // check if user already loggedIn go to homepage(restaurantListFragment)
-         if(loginViewModel.isUserAuthenticated())
-         {
-             findNavController().navigate(R.id.action_loginFragment_to_restaurantListFragment)
-         }
+    private fun clickListener(){
 
-
-        //------------------------------------------------login------------------------------------------------------------//
+        //to open Register Fragment
+        binding.signupTextView.setOnClickListener {
+            findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
+        }
 
         //Login
         binding.loginButton.setOnClickListener {
@@ -78,45 +115,9 @@ class LoginFragment : Fragment() {
             }
         }
 
-        //Login sharedFlow
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                loginViewModel.sharedFlow.collectLatest { loginState ->
-
-                     when{
-
-                         loginState.isLoading ->{
-                             //show progress Bar
-                             binding.progressBar.visibility = View.VISIBLE
-                             Log.d(TAG,"is Loading")
-                         }
-
-                         loginState.isSuccess ->{
-                             //hide progress Bar
-                             binding.progressBar.visibility = View.INVISIBLE
-                             Log.d(TAG,"login Successfully")
-                             findNavController().navigate(R.id.action_loginFragment_to_restaurantListFragment)
-
-                         }
-
-                         loginState.error.isNotBlank() ->{
-                             //hide progress Bar
-                             binding.progressBar.visibility =  View.INVISIBLE
-                             Log.d(TAG,loginState.error)
-                             //show error massage
-                             Toast.makeText(requireActivity(), loginState.error, Toast.LENGTH_SHORT).show()
-                         }
-
-                     }
-                }
-            }
-        }
     }
 
-
-    //------------------------------------------------collectData------------------------------------------------------------//
-
-    // to collect post data from all fields
+    //Collect data from all fields
     private fun collectDataFromUser() {
 
         email = binding.emailLoginTV.text.toString().trim()
@@ -124,9 +125,8 @@ class LoginFragment : Fragment() {
 
     }
 
-    //--------------------------------------------------check Data Validity------------------------------------------------------------//
 
-    // to check if all field contain data and give error massage if not
+    //check if all field contain data and give error massage if not
     private fun checkDataValidity() : Boolean {
         var isAllDataFilled = true
 
