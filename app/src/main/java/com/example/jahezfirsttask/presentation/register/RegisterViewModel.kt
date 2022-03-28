@@ -2,7 +2,7 @@ package com.example.jahezfirsttask.presentation.register
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.jahezfirsttask.common.Resource
+import com.example.jahezfirsttask.common.Result
 import com.example.jahezfirsttask.domain.useCase.authentication.RegisterUseCase
 import com.example.jahezfirsttask.data.state.AuthenticationState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -32,18 +32,18 @@ class RegisterViewModel @Inject constructor(
 
             when (result) {
 
-                is Resource.Success -> {
+                is Result.Success -> {
 
                     _stateFlow.value = AuthenticationState(isSuccess = true)
                 }
 
-                is Resource.Error -> {
+                is Result.Error -> {
 
                     _stateFlow.value =
                         AuthenticationState(error = result.message ?: "An unaccepted error accrue")
                 }
 
-                is Resource.Loading -> {
+                is Result.Loading -> {
 
                     _stateFlow.value = AuthenticationState(isLoading = true)
 

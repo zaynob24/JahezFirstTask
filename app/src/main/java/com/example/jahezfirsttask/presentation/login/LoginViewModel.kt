@@ -2,12 +2,12 @@ package com.example.jahezfirsttask.presentation.login
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.jahezfirsttask.common.Resource
 import com.example.jahezfirsttask.domain.useCase.authentication.IsUserAuthenticatedUseCase
 import com.example.jahezfirsttask.domain.useCase.authentication.LoginUseCase
 import com.example.jahezfirsttask.data.state.AuthenticationState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
+import com.example.jahezfirsttask.common.Result
 import javax.inject.Inject
 
 @HiltViewModel
@@ -38,17 +38,17 @@ class LoginViewModel @Inject constructor(
 
             when (result) {
 
-                is Resource.Success -> {
+                is Result.Success -> {
 
                     _sharedFlow.emit(AuthenticationState(isSuccess = true))
                 }
 
-                is Resource.Error -> {
+                is Result.Error -> {
                     _sharedFlow.emit( AuthenticationState(error = result.message ?: "An unaccepted error accrue"))
 
                 }
 
-                is Resource.Loading -> {
+                is Result.Loading -> {
                     _sharedFlow.emit( AuthenticationState(isLoading = true))
 
                 }
