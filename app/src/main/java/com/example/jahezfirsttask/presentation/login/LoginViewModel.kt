@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.jahezfirsttask.domain.useCase.authentication.IsUserAuthenticatedUseCase
 import com.example.jahezfirsttask.domain.useCase.authentication.LoginUseCase
-import com.example.jahezfirsttask.data.state.AuthenticationState
+import com.example.jahezfirsttask.domain.state.AuthenticationState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import com.example.jahezfirsttask.common.Result
@@ -18,13 +18,12 @@ class LoginViewModel @Inject constructor(
 ) : ViewModel() {
 
 
-    //------------------------------------------authentication----------------------------------------------------//
+    //----authentication
 
     //check user authentication (if user already logged in or not)
     fun isUserAuthenticated()= isUserAuthenticatedUseCase.invoke()
 
-     //------------------------------------------FOR LOGIN----------------------------------------------------//
-
+     //-----FOR LOGIN
 
     //shared Flow
     private val _sharedFlow = MutableSharedFlow<AuthenticationState>()

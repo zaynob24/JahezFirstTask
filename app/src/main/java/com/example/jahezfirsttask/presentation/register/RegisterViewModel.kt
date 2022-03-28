@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.jahezfirsttask.common.Result
 import com.example.jahezfirsttask.domain.useCase.authentication.RegisterUseCase
-import com.example.jahezfirsttask.data.state.AuthenticationState
+import com.example.jahezfirsttask.domain.state.AuthenticationState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -17,9 +17,6 @@ class RegisterViewModel @Inject constructor(
     private val registerUseCase: RegisterUseCase,
 
 ) : ViewModel() {
-
-
-    //----------------------------------------------------------------------------------------------//
 
     //state Flow
     private val _stateFlow = MutableStateFlow(AuthenticationState())

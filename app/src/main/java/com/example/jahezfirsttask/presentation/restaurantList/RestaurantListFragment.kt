@@ -10,6 +10,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
 import com.example.jahezfirsttask.R
 import com.example.jahezfirsttask.databinding.FragmentRestaurantListBinding
 import com.example.jahezfirsttask.presentation.restaurantList.RestaurantListAdapter
@@ -36,28 +37,33 @@ class RestaurantListFragment : Fragment() {
 
         //To make OptionsMenu display in the fragment
         setHasOptionsMenu(true)
+
         // Inflate the layout for this fragment
         binding = FragmentRestaurantListBinding.inflate(layoutInflater, container, false)
         return binding.root
-
     }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        init()
+        //Get Restaurant List
+        initCollectFlow()
+    }
 
-        //------------------------------------------------Adapter & Recyclerview------------------------------------------------------------//
+    private fun init() {
 
         //initiate the adapter and assigned to recyclerview
-
         restaurantListAdapter = RestaurantListAdapter()
         binding.itemRecyclerview.adapter = restaurantListAdapter
 
-        //------------------------------------------------Get Restaurant List------------------------------------------------------------//
-
+        //-----Get Restaurant List
         //call view model to get restaurant List
-         restaurantViewModel
+        restaurantViewModel
+    }
+
+    //Get Restaurant List by Collect Flow
+    private fun initCollectFlow() {
 
         //restaurant List stateFlow
         viewLifecycleOwner.lifecycleScope.launch {
@@ -93,9 +99,9 @@ class RestaurantListFragment : Fragment() {
                 }
             }
         }
-
     }
-    //------------------------------------------------Options Menu filtering ------------------------------------------------------------//
+
+    //-----Options Menu filtering
 
     //to show OptionsMenu
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

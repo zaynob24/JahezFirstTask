@@ -3,7 +3,7 @@ package com.example.jahezfirsttask.presentation.restaurantList
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.jahezfirsttask.data.state.RestaurantListState
+import com.example.jahezfirsttask.domain.state.RestaurantListState
 import com.example.jahezfirsttask.domain.useCase.authentication.SignOutUseCase
 import com.example.jahezfirsttask.domain.useCase.restaurantList.GetRestaurantUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -13,7 +13,6 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 import com.example.jahezfirsttask.common.Result
-import com.example.jahezfirsttask.data.remote.dto.toRestaurant
 import kotlinx.coroutines.launch
 
 
