@@ -64,7 +64,7 @@ class RegisterFragment : Fragment() {
         //Register stateFlow
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                registerViewModel.stateFlow.collectLatest { registerState ->
+                registerViewModel.registerSharedFlow.collectLatest { registerState ->
 
                     when{
 

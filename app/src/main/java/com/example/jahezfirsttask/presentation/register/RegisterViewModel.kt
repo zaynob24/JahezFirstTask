@@ -10,10 +10,7 @@ import com.example.jahezfirsttask.domain.useCase.authentication.RegisterUseCase
 import com.example.jahezfirsttask.domain.state.AuthenticationState
 import com.example.jahezfirsttask.presentation.util.Validations
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
 private const val TAG = "RegisterViewModel"
@@ -38,9 +35,10 @@ class RegisterViewModel @Inject constructor(
         confirmPasswordErrorMassage.set(R.string.empty_massage)
     }
 
-    //state Flow
-    private val _stateFlow = MutableStateFlow(AuthenticationState())
-    val stateFlow = _stateFlow.asStateFlow()
+
+    //shared flow for register
+    private val _registerSharedFlow = MutableSharedFlow<AuthenticationState>()
+    val registerSharedFlow = _registerSharedFlow.asSharedFlow()
 
     //Register
     fun Register(email: String, password: String) {
@@ -51,18 +49,17 @@ class RegisterViewModel @Inject constructor(
 
                 is Result.Success -> {
 
-                    _stateFlow.value = AuthenticationState(isSuccess = true)
+                    _registerSharedFlow.emit(AuthenticationState(isSuccess = true))
                 }
 
                 is Result.Error -> {
+                    _registerSharedFlow.emit( AuthenticationState(error = result.message ?: "An unaccepted error accrue"))
 
-                    _stateFlow.value =
-                        AuthenticationState(error = result.message ?: "An unaccepted error accrue")
                 }
 
                 is Result.Loading -> {
 
-                    _stateFlow.value = AuthenticationState(isLoading = true)
+                    _registerSharedFlow.emit( AuthenticationState(isLoading = true))
 
                 }
             }
