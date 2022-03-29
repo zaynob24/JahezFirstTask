@@ -21,6 +21,8 @@
     <!-- Error massage -->
     <string name="required">Required</string>
     <string name="fill_required">please fill required</string>
+    <string name="empty_massage"> </string>
+
 
     <string name="invalid_email">Invalid email</string>
     <string name="invalid_password_massage">Your password should be at least 8 characters,contains 1 special character,small and capital characters</string>

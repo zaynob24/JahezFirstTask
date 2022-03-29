@@ -41,7 +41,6 @@ class LoginFragment : Fragment() {
     }
 
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -50,6 +49,7 @@ class LoginFragment : Fragment() {
         clickListener()
         initCollectFlow()
     }
+
 
     private fun initViewModelDataBinding() {
 
@@ -72,7 +72,7 @@ class LoginFragment : Fragment() {
         //Login sharedFlow
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                loginViewModel.sharedFlow.collectLatest { loginState ->
+                loginViewModel.loginSharedFlow.collectLatest { loginState ->
 
                     when{
 
@@ -116,8 +116,9 @@ class LoginFragment : Fragment() {
         binding.loginButton.setOnClickListener {
 
             collectDataFromUser() // to collect items data from all fields
-            if (loginViewModel.checkDataValidity()){ // to check if all field contain data and give error massage if not
+            if (loginViewModel.checkDataValidity(email, password)){ // to check if all field contain data and give error massage if not
 
+                Log.d(TAG," (loginViewModel.checkDataValidity(email, password))")
                 //call firebase login
                 loginViewModel.login(email, password)
 
@@ -125,7 +126,6 @@ class LoginFragment : Fragment() {
                 Toast.makeText(requireContext(),getText(R.string.fill_required), Toast.LENGTH_SHORT).show()
             }
         }
-
     }
 
     //Collect data from all fields
@@ -134,33 +134,6 @@ class LoginFragment : Fragment() {
         email = binding.emailLoginTV.text.toString().trim()
         password = binding.passwordLoginTV.text.toString().trim()
 
-    }
-
-
-    //check if all field contain data and give error massage if not
-    private fun checkDataValidity() : Boolean {
-        var isAllDataFilled = true
-
-
-        //check email
-        if (email.isEmpty() || email.isBlank()) {
-            binding.emailLoginTextField.error = getString(R.string.required)
-            isAllDataFilled = false
-
-        } else {
-            binding.emailLoginTextField.error = null
-        }
-
-        //check password
-        if (password.isEmpty() || password.isBlank()) {
-            binding.passwordLoginTextField.error = getString(R.string.required)
-            isAllDataFilled = false
-        } else {
-
-            binding.passwordLoginTextField.error = null
-        }
-
-        return isAllDataFilled
     }
 
 }

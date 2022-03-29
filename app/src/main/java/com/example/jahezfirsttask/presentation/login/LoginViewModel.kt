@@ -1,5 +1,7 @@
 package com.example.jahezfirsttask.presentation.login
 
+
+import androidx.databinding.ObservableInt
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -19,20 +21,25 @@ class LoginViewModel @Inject constructor(
 
 ) : ViewModel() {
 
-    val emailErrorMassage = MutableLiveData<String>()
+    //ObservableInt() -> binding data with setting a value from string resource
+    val emailErrorMassage = ObservableInt()
+    val passwordErrorMassage = ObservableInt()
 
+
+    //init Error Massage with empty string
     init {
-        emailErrorMassage.value = "test emailErrorMassage"
+        emailErrorMassage.set(R.string.empty_massage)
+        passwordErrorMassage.set(R.string.empty_massage)
     }
 
     //authentication
     //check user authentication (if user already logged in or not)
     fun isUserAuthenticated()= isUserAuthenticatedUseCase.invoke()
 
-     //FOR LOGIN
-    //shared Flow
-    private val _sharedFlow = MutableSharedFlow<AuthenticationState>()
-    val sharedFlow = _sharedFlow.asSharedFlow()
+    //shared flow for login
+    private val _loginSharedFlow = MutableSharedFlow<AuthenticationState>()
+    val loginSharedFlow = _loginSharedFlow.asSharedFlow()
+
 
     //Login
     fun login(email: String, password: String) {
@@ -43,16 +50,16 @@ class LoginViewModel @Inject constructor(
 
                 is Result.Success -> {
 
-                    _sharedFlow.emit(AuthenticationState(isSuccess = true))
+                    _loginSharedFlow.emit(AuthenticationState(isSuccess = true))
                 }
 
                 is Result.Error -> {
-                    _sharedFlow.emit( AuthenticationState(error = result.message ?: "An unaccepted error accrue"))
+                    _loginSharedFlow.emit( AuthenticationState(error = result.message ?: "An unaccepted error accrue"))
 
                 }
 
                 is Result.Loading -> {
-                    _sharedFlow.emit( AuthenticationState(isLoading = true))
+                    _loginSharedFlow.emit( AuthenticationState(isLoading = true))
 
                 }
             }
@@ -60,7 +67,32 @@ class LoginViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
+    //check if all field contain data and give error massage if not
+    fun checkDataValidity(email: String , password: String) : Boolean {
+        var isAllDataFilled = true
 
+        //check email
+        if (email.isEmpty() || email.isBlank()) {
+
+            emailErrorMassage.set(R.string.required)
+            isAllDataFilled = false
+
+        } else {
+            emailErrorMassage.set(R.string.empty_massage)
+        }
+
+        //check password
+        if (password.isEmpty() || password.isBlank()) {
+
+            passwordErrorMassage.set(R.string.required)
+            isAllDataFilled = false
+        } else {
+
+            passwordErrorMassage.set(R.string.empty_massage)
+        }
+
+        return isAllDataFilled
+    }
 
 
 }

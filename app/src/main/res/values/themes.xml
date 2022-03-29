@@ -28,4 +28,9 @@
         <item name="android:statusBarColor">@color/colorPrimary</item>
     </style>
 
+    <style name="errorMassage" parent="Widget.MaterialComponents.TextView">
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
 </resources>
