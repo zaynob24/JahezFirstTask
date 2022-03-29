@@ -1,5 +1,6 @@
 package com.example.jahezfirsttask.presentation.util
 
+import dagger.hilt.EntryPoint
 import java.util.regex.Pattern
 
 class Validations {

@@ -25,12 +25,10 @@ class RegisterFragment : Fragment() {
 
     private lateinit var binding: FragmentRegisterBinding
 
-    private lateinit var  name: String
     private lateinit var  email: String
     private lateinit var  password: String
     private lateinit var  confirmPassword: String
 
-    private val validator = Validations()
     private val registerViewModel : RegisterViewModel by activityViewModels()
 
     override fun onCreateView(

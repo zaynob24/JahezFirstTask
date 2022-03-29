@@ -12,6 +12,7 @@ import com.example.jahezfirsttask.domain.state.AuthenticationState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import com.example.jahezfirsttask.common.Result
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -44,27 +45,32 @@ class LoginViewModel @Inject constructor(
     //Login
     fun login(email: String, password: String) {
 
-        signeInUseCase(email, password).onEach { result ->
+        viewModelScope.launch {
 
-            when (result) {
+            signeInUseCase(email, password).onEach { result ->
 
-                is Result.Success -> {
+                when (result) {
 
-                    _loginSharedFlow.emit(AuthenticationState(isSuccess = true))
+                    is Result.Success -> {
+
+                        _loginSharedFlow.emit(AuthenticationState(isSuccess = true))
+                    }
+
+                    is Result.Error -> {
+                        _loginSharedFlow.emit( AuthenticationState(error = result.message ?: "An unaccepted error accrue"))
+
+                    }
+
+                    is Result.Loading -> {
+                        _loginSharedFlow.emit( AuthenticationState(isLoading = true))
+
+                    }
                 }
 
-                is Result.Error -> {
-                    _loginSharedFlow.emit( AuthenticationState(error = result.message ?: "An unaccepted error accrue"))
+            }.launchIn(viewModelScope)
 
-                }
 
-                is Result.Loading -> {
-                    _loginSharedFlow.emit( AuthenticationState(isLoading = true))
-
-                }
-            }
-
-        }.launchIn(viewModelScope)
+        }
     }
 
     //check if all field contain data and give error massage if not

@@ -24,12 +24,11 @@ class RestaurantListViewModel  @Inject constructor(
 
 ):ViewModel() {
 
-    //------------------------------------------authentication----------------------------------------------------//
-
+    //authentication
     //signOut
     fun signOut()= signOutUseCase.invoke()
 
-    //------------------------------------------get Restaurant----------------------------------------------------//
+    //get Restaurant
 
     //state Flow
     private val _stateFlow = MutableStateFlow(RestaurantListState())
