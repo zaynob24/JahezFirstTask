@@ -12,22 +12,6 @@ class RegisterUseCase @Inject constructor(
     private val repository: IAuthRepository
 ) {
 
-    operator fun invoke(email: String, password: String) : Flow<Result<Boolean>> = flow {
 
-        try {
-            // here we emit loading so in ui we show progress bar
-            emit(Result.Loading())
-            repository.firebaseRegister(email, password)
-            emit(Result.Success(true))
-
-        } catch (e: Exception) {
-            emit(Result.Error(e.localizedMessage?:"Un  unexpected error occurred"))
-
-        }catch (e: HttpException){
-
-            emit(Result.Error(e.localizedMessage?:"Un  unexpected error occurred"))
-        }catch (e: IOException){
-            emit(Result.Error("couldn't reach server , check your internet connection") )
-        }
-    }
+    suspend operator fun invoke(email: String, password: String) : Flow<Result<Boolean>> = repository.firebaseRegister(email, password)
 }

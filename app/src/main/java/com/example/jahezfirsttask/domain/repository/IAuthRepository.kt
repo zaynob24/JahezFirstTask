@@ -10,7 +10,7 @@ interface IAuthRepository {
     suspend fun firebaseLogin(email: String, password: String): Flow<Result<Boolean>>
 
     // Register user in firebase
-    suspend fun firebaseRegister(email: String, password: String) : AuthResult
+    suspend fun firebaseRegister(email: String, password: String): Flow<Result<Boolean>>
 
     // check if user already logged in (user login state)
     fun isUserAuthenticatedInFirebase(): Boolean

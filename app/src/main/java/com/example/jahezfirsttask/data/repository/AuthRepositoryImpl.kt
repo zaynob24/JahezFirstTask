@@ -37,10 +37,24 @@ class AuthRepositoryImpl @Inject constructor(
     }
 
     // Register user in firebase
-    override suspend fun firebaseRegister(email: String, password: String): AuthResult {
-        return auth.createUserWithEmailAndPassword(email,password).await()
-    }
+    override suspend fun firebaseRegister(email: String, password: String): Flow<Result<Boolean>> = flow {
 
+        try {
+            // here we emit loading so in ui we show progress bar
+            emit(Result.Loading())
+            auth.createUserWithEmailAndPassword(email,password).await()
+            emit(Result.Success(true))
+
+        } catch (e: Exception) {
+            emit(Result.Error(e.localizedMessage?:"Un  unexpected error occurred"))
+
+        }catch (e: HttpException){
+
+            emit(Result.Error(e.localizedMessage?:"Un  unexpected error occurred"))
+        }catch (e: IOException){
+            emit(Result.Error("couldn't reach server , check your internet connection") )
+        }
+    }
     // check if user already logged in (user login state)
     override fun isUserAuthenticatedInFirebase(): Boolean {
         return auth.currentUser != null

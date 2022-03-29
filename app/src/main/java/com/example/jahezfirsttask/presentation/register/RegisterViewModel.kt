@@ -11,6 +11,7 @@ import com.example.jahezfirsttask.domain.state.AuthenticationState
 import com.example.jahezfirsttask.presentation.util.Validations
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 private const val TAG = "RegisterViewModel"
@@ -43,28 +44,32 @@ class RegisterViewModel @Inject constructor(
     //Register
     fun Register(email: String, password: String) {
 
-        registerUseCase(email, password).onEach { result ->
+        viewModelScope.launch {
+            registerUseCase(email, password).onEach { result ->
 
-            when (result) {
+                when (result) {
 
-                is Result.Success -> {
+                    is Result.Success -> {
 
-                    _registerSharedFlow.emit(AuthenticationState(isSuccess = true))
+                        _registerSharedFlow.emit(AuthenticationState(isSuccess = true))
+                    }
+
+                    is Result.Error -> {
+                        _registerSharedFlow.emit( AuthenticationState(error = result.message ?: "An unaccepted error accrue"))
+
+                    }
+
+                    is Result.Loading -> {
+
+                        _registerSharedFlow.emit( AuthenticationState(isLoading = true))
+
+                    }
                 }
 
-                is Result.Error -> {
-                    _registerSharedFlow.emit( AuthenticationState(error = result.message ?: "An unaccepted error accrue"))
+            }.launchIn(viewModelScope)
 
-                }
+        }
 
-                is Result.Loading -> {
-
-                    _registerSharedFlow.emit( AuthenticationState(isLoading = true))
-
-                }
-            }
-
-        }.launchIn(viewModelScope)
     }
 
     //check if all field contain data and give error massage if not
