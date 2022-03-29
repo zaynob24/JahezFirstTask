@@ -4,6 +4,11 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     tools:context=".presentation.ui.login.LoginFragment">
 
+    <data>
+        <variable
+            name="viewModel"
+            type="com.example.jahezfirsttask.presentation.login.LoginViewModel" />
+    </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/frameLayout"
         android:layout_width="match_parent"
@@ -46,7 +51,9 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/email"
                 app:endIconMode="clear_text"
-                app:errorEnabled="true">
+                app:errorEnabled="true"
+                app:helperText="@{viewModel.emailErrorMassage}"
+                app:helperTextTextColor="@color/colorPrimary">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/emailLoginTV"
@@ -65,7 +72,9 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/password"
                 app:endIconMode="password_toggle"
-                app:errorEnabled="true">
+                app:errorEnabled="true"
+                app:helperText="@string/required"
+                app:helperTextTextColor="@color/colorPrimary">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/passwordLoginTV"

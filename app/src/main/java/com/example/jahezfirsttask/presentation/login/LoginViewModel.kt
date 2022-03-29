@@ -1,7 +1,9 @@
 package com.example.jahezfirsttask.presentation.login
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.jahezfirsttask.R
 import com.example.jahezfirsttask.domain.useCase.authentication.IsUserAuthenticatedUseCase
 import com.example.jahezfirsttask.domain.useCase.authentication.LoginUseCase
 import com.example.jahezfirsttask.domain.state.AuthenticationState
@@ -17,14 +19,17 @@ class LoginViewModel @Inject constructor(
 
 ) : ViewModel() {
 
+    val emailErrorMassage = MutableLiveData<String>()
 
-    //----authentication
+    init {
+        emailErrorMassage.value = "test emailErrorMassage"
+    }
 
+    //authentication
     //check user authentication (if user already logged in or not)
     fun isUserAuthenticated()= isUserAuthenticatedUseCase.invoke()
 
-     //-----FOR LOGIN
-
+     //FOR LOGIN
     //shared Flow
     private val _sharedFlow = MutableSharedFlow<AuthenticationState>()
     val sharedFlow = _sharedFlow.asSharedFlow()
@@ -54,4 +59,8 @@ class LoginViewModel @Inject constructor(
 
         }.launchIn(viewModelScope)
     }
+
+
+
+
 }

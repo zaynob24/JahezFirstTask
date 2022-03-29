@@ -40,13 +40,24 @@ class LoginFragment : Fragment() {
 
     }
 
+
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initViewModelDataBinding()
         checkUserAuthentication()
         clickListener()
         initCollectFlow()
     }
+
+    private fun initViewModelDataBinding() {
+
+        binding.viewModel = loginViewModel
+        // Specify the fragment view as the lifecycle owner of the binding.
+        // This is used so that the binding can observe LiveData updates
+        binding.lifecycleOwner = this   }
+
 
     private fun checkUserAuthentication() {
         // check if user already loggedIn go to homepage(restaurantListFragment)
@@ -105,7 +116,7 @@ class LoginFragment : Fragment() {
         binding.loginButton.setOnClickListener {
 
             collectDataFromUser() // to collect items data from all fields
-            if (checkDataValidity()){ // to check if all field contain data and give error massage if not
+            if (loginViewModel.checkDataValidity()){ // to check if all field contain data and give error massage if not
 
                 //call firebase login
                 loginViewModel.login(email, password)
