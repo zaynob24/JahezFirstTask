@@ -31,7 +31,7 @@ class RegisterFragment : Fragment() {
     private lateinit var  confirmPassword: String
 
     private val validator = Validations()
-    private val RegisterViewModel : RegisterViewModel by activityViewModels()
+    private val registerViewModel : RegisterViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,17 +47,24 @@ class RegisterFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initViewModelDataBinding()
         clickListener()
         initCollectFlow()
 
     }
 
+    private fun initViewModelDataBinding() {
+
+        binding.viewModel = registerViewModel
+        // Specify the fragment view as the lifecycle owner of the binding.
+        // This is used so that the binding can observe LiveData updates
+        binding.lifecycleOwner = this   }
 
     private fun initCollectFlow() {
         //Register stateFlow
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                RegisterViewModel.stateFlow.collectLatest { registerState ->
+                registerViewModel.stateFlow.collectLatest { registerState ->
 
                     when{
 
@@ -99,10 +106,10 @@ class RegisterFragment : Fragment() {
         binding.signUpButton.setOnClickListener {
 
             collectDataFromUser() // to collect items data from all fields
-            if (checkDataValidity()){ // to check if all field contain data and give error massage if not
+            if (registerViewModel.checkDataValidity(email,password,confirmPassword)){ // to check if all field contain data and give error massage if not
 
                 //call firebase register
-                RegisterViewModel.Register(email, password)
+                registerViewModel.Register(email, password)
 
             }else{
                 Toast.makeText(requireContext(),getText(R.string.fill_required), Toast.LENGTH_SHORT).show()
@@ -111,82 +118,12 @@ class RegisterFragment : Fragment() {
 
     }
 
-
     // to collect post data from all fields
     private fun collectDataFromUser() {
 
-        name = binding.fullNameSignUpTV.text.toString().trim()
         email = binding.emailSignUpTV.text.toString().trim()
         password = binding.passwordSignUpTV.text.toString().trim()
         confirmPassword = binding.confirmPasswordSignUpTV.text.toString().trim()
 
-    }
-
-
-    // to check if all field contain data and give error massage if not
-    private fun checkDataValidity() : Boolean {
-        var isAllDataFilled = true
-
-        //check name
-        if (name.isEmpty() || name.isBlank()) {
-            binding.fullNameSignUpFiled.error = getString(R.string.required)
-            isAllDataFilled = false
-        } else {
-            binding.fullNameSignUpFiled.error = null
-        }
-
-
-        //check email
-        if (email.isEmpty() || email.isBlank()) {
-            binding.emailSignUpField.error = getString(R.string.required)
-            isAllDataFilled = false
-        } else {
-            //check email validate
-            if (validator.emailIsValid(email)){
-                binding.emailSignUpField.error = null
-
-            }else{
-
-                isAllDataFilled = false
-                binding.emailSignUpField.error = getString(R.string.invalid_email)
-                Log.d(TAG,"invalid_email")
-            }
-        }
-
-        //check password
-        if (password.isEmpty() || password.isBlank()) {
-            binding.passwordSignUpField.error = getString(R.string.required)
-            isAllDataFilled = false
-
-        } else{
-
-            if(validator.passwordIsValid(password)){
-                binding.passwordSignUpField.error = null
-
-            }else{
-
-                //check password validate
-                isAllDataFilled = false
-                binding.passwordSignUpField.error = getString(R.string.invalid_password_massage)
-                Log.d(TAG,"invalid_password_massage")
-            }
-
-        }
-
-        //check confirmPassword
-        if (confirmPassword.isEmpty() || confirmPassword.isBlank()) {
-            binding.confirmPasswordSignUpField.error = getString(R.string.required)
-            isAllDataFilled = false
-
-        }else if(password != confirmPassword){
-            binding.confirmPasswordSignUpField.error = getString(R.string.password_not_match)
-            isAllDataFilled = false
-            Log.d(TAG,"password_not_match")
-
-        }else {
-            binding.confirmPasswordSignUpField.error = null
-        }
-
-        return isAllDataFilled
     }
 }

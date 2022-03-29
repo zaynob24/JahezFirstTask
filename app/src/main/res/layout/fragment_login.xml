@@ -83,7 +83,7 @@
                     android:inputType="textPassword" />
 
                 <TextView
-                    android:id="@+id/passowrdErrorMassage"
+                    android:id="@+id/passwordErrorMassage"
                     style="@style/errorMassage"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
