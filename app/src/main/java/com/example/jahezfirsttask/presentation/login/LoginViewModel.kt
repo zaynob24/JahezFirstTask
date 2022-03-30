@@ -6,12 +6,17 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.jahezfirsttask.R
+import com.example.jahezfirsttask.common.Constants.EMPTY_EMAIL
+import com.example.jahezfirsttask.common.Constants.EMPTY_PASSWORD
+import com.example.jahezfirsttask.common.Constants.INVALID_EMAIL
+import com.example.jahezfirsttask.common.Constants.VALID_INPUTS
 import com.example.jahezfirsttask.domain.useCase.authentication.IsUserAuthenticatedUseCase
 import com.example.jahezfirsttask.domain.useCase.authentication.LoginUseCase
 import com.example.jahezfirsttask.domain.state.AuthenticationState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import com.example.jahezfirsttask.common.Result
+import com.example.jahezfirsttask.presentation.util.Validations
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -22,16 +27,6 @@ class LoginViewModel @Inject constructor(
 
 ) : ViewModel() {
 
-    //ObservableInt() -> binding data with setting a value from string resource
-    val emailErrorMassage = ObservableInt()
-    val passwordErrorMassage = ObservableInt()
-
-
-    //init Error Massage with empty string
-    init {
-        emailErrorMassage.set(R.string.empty_massage)
-        passwordErrorMassage.set(R.string.empty_massage)
-    }
 
     //authentication
     //check user authentication (if user already logged in or not)
@@ -40,6 +35,11 @@ class LoginViewModel @Inject constructor(
     //shared flow for login
     private val _loginSharedFlow = MutableSharedFlow<AuthenticationState>()
     val loginSharedFlow = _loginSharedFlow.asSharedFlow()
+
+
+    //shared flow for Check the input fields validity
+    private val _inputState = MutableSharedFlow<List<Int>>()
+    val inputState = _inputState.asSharedFlow()
 
 
     //Login
@@ -73,31 +73,34 @@ class LoginViewModel @Inject constructor(
         }
     }
 
-    //check if all field contain data and give error massage if not
-    fun checkDataValidity(email: String , password: String) : Boolean {
-        var isAllDataFilled = true
+    //check if all field contain Valid data and give error massage if not
+    fun checkDataValidity(email: String, password: String) {
 
-        //check email
-        if (email.isEmpty() || email.isBlank()) {
+        viewModelScope.launch {
 
-            emailErrorMassage.set(R.string.required)
-            isAllDataFilled = false
+            var isAllDataValid = true
 
-        } else {
-            emailErrorMassage.set(R.string.empty_massage)
+            val inputStates = mutableListOf<Int>()
+
+            //check email
+            if (email.isBlank()) {
+                inputStates.add(EMPTY_EMAIL)
+                isAllDataValid = false
+            } else if (!Validations.emailIsValid(email)) {
+                inputStates.add(INVALID_EMAIL)
+                isAllDataValid = false
+            }
+
+            //check password
+            if (password.isBlank()) {
+                isAllDataValid = false
+                inputStates.add(EMPTY_PASSWORD)
+            }
+            _inputState.emit(inputStates)
+
+            if (isAllDataValid)
+                _inputState.emit(listOf(VALID_INPUTS))
         }
-
-        //check password
-        if (password.isEmpty() || password.isBlank()) {
-
-            passwordErrorMassage.set(R.string.required)
-            isAllDataFilled = false
-        } else {
-
-            passwordErrorMassage.set(R.string.empty_massage)
-        }
-
-        return isAllDataFilled
     }
 
 

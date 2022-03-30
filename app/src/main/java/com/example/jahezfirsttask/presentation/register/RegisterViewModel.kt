@@ -26,8 +26,6 @@ class RegisterViewModel @Inject constructor(
     val passwordErrorMassage = ObservableInt()
     val confirmPasswordErrorMassage = ObservableInt()
 
-    private val validator = Validations()
-
 
     //init Error Massage with empty string
     init {
@@ -83,7 +81,7 @@ class RegisterViewModel @Inject constructor(
             isAllDataFilled = false
         } else {
             //check email validate
-            if (validator.emailIsValid(email)){
+            if (Validations.emailIsValid(email)){
                 emailErrorMassage.set(R.string.empty_massage)
 
             }else{
@@ -101,7 +99,7 @@ class RegisterViewModel @Inject constructor(
 
         } else{
 
-            if(validator.passwordIsValid(password)){
+            if(Validations.passwordIsValid(password)){
                 passwordErrorMassage.set(R.string.empty_massage)
 
             }else{

@@ -12,6 +12,5 @@ class RegisterUseCase @Inject constructor(
     private val repository: IAuthRepository
 ) {
 
-
     suspend operator fun invoke(email: String, password: String) : Flow<Result<Boolean>> = repository.firebaseRegister(email, password)
 }

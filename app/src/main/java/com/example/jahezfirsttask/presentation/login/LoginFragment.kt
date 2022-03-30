@@ -13,6 +13,10 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.example.jahezfirsttask.R
+import com.example.jahezfirsttask.common.Constants.EMPTY_EMAIL
+import com.example.jahezfirsttask.common.Constants.EMPTY_PASSWORD
+import com.example.jahezfirsttask.common.Constants.INVALID_EMAIL
+import com.example.jahezfirsttask.common.Constants.VALID_INPUTS
 import com.example.jahezfirsttask.databinding.FragmentLoginBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -44,19 +48,11 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initViewModelDataBinding()
+        observeDataValidityState()
         checkUserAuthentication()
         clickListener()
         initCollectFlow()
     }
-
-
-    private fun initViewModelDataBinding() {
-
-        binding.viewModel = loginViewModel
-        // Specify the fragment view as the lifecycle owner of the binding.
-        // This is used so that the binding can observe LiveData updates
-        binding.lifecycleOwner = this   }
 
 
     private fun checkUserAuthentication() {
@@ -116,14 +112,32 @@ class LoginFragment : Fragment() {
         binding.loginButton.setOnClickListener {
 
             collectDataFromUser() // to collect items data from all fields
-            if (loginViewModel.checkDataValidity(email, password)){ // to check if all field contain data and give error massage if not
+            loginViewModel.checkDataValidity(email, password)
+        }
+    }
 
-                Log.d(TAG," (loginViewModel.checkDataValidity(email, password))")
-                //call firebase login
-                loginViewModel.login(email, password)
+    private fun observeDataValidityState() {
+        val emailLayout = binding.emailLoginTextField
+        val passwordLayout = binding.passwordLoginTextField
 
-            }else{
-                Toast.makeText(requireContext(),getText(R.string.fill_required), Toast.LENGTH_SHORT).show()
+        emailLayout.error = null
+        passwordLayout.error = null
+
+        lifecycleScope.launch {
+            loginViewModel.inputState.collect { validState ->
+
+                validState.onEach {
+                    when (it) {
+                        EMPTY_EMAIL -> emailLayout.error = getString(R.string.required)
+                        INVALID_EMAIL -> emailLayout.error = getString(R.string.invalid_email)
+                        EMPTY_PASSWORD -> passwordLayout.error = getString(R.string.required)
+                        VALID_INPUTS -> {
+                            emailLayout.error = null
+                            passwordLayout.error = null
+                            loginViewModel.login(email, password)
+                        }
+                    }
+                }
             }
         }
     }

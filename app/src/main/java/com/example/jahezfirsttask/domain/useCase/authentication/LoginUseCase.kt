@@ -13,7 +13,5 @@ import javax.inject.Inject
 class LoginUseCase @Inject constructor(
     private val repository: IAuthRepository
 ) {
-
     suspend operator fun invoke(email :String,password:String): Flow<Result<Boolean>> = repository.firebaseLogin(email, password)
-
 }

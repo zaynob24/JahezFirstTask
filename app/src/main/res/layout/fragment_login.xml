@@ -4,11 +4,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     tools:context=".presentation.ui.login.LoginFragment">
 
-    <data>
-        <variable
-            name="viewModel"
-            type="com.example.jahezfirsttask.presentation.login.LoginViewModel" />
-    </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/frameLayout"
         android:layout_width="match_parent"
@@ -43,52 +38,41 @@
                 android:layout_marginBottom="12dp"
                 android:text="@string/hello_login_massage" />
 
+
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/emailLoginTextField"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:hint="@string/email"
                 app:endIconMode="clear_text"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-                <EditText
+                app:errorEnabled="true">
+
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/emailLoginTV"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:hint="@string/email"
-                    android:inputType="textEmailAddress" />
-
-                <TextView
-                    android:id="@+id/emailErrorMassage"
-                    style="@style/errorMassage"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:text="@{viewModel.emailErrorMassage}" />
-
+                    android:maxLines="1"
+                    android:lines="1"
+                    android:singleLine="true"
+                    android:layout_height="wrap_content" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
-
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/passwordLoginTextField"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                app:passwordToggleEnabled="true">
+                android:hint="@string/password"
+                app:endIconMode="password_toggle"
+                app:errorEnabled="true">
 
-                <EditText
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/passwordLoginTV"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:hint="@string/password"
                     android:inputType="textPassword" />
 
-                <TextView
-                    android:id="@+id/passwordErrorMassage"
-                    style="@style/errorMassage"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:text="@{viewModel.passwordErrorMassage}" />
             </com.google.android.material.textfield.TextInputLayout>
 
 

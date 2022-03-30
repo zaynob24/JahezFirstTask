@@ -3,7 +3,7 @@ package com.example.jahezfirsttask.presentation.util
 import dagger.hilt.EntryPoint
 import java.util.regex.Pattern
 
-class Validations {
+object Validations {
     //kotlin password regular expression
     private val REGEX_PASSWORD = "^(?=.*[0-9])" + // a digit must occur at least once
             "(?=.*[a-z])" + // a lower case letter must occur at least once
