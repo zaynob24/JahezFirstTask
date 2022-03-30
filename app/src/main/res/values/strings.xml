@@ -21,7 +21,6 @@
     <!-- Error massage -->
     <string name="required">Required</string>
     <string name="fill_required">please fill required</string>
-    <string name="empty_massage"> </string>
 
 
     <string name="invalid_email">Invalid email</string>

@@ -123,7 +123,7 @@ class LoginFragment : Fragment() {
         emailLayout.error = null
         passwordLayout.error = null
 
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             loginViewModel.inputState.collect { validState ->
 
                 validState.onEach {

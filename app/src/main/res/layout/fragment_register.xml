@@ -3,11 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-        <variable
-            name="viewModel"
-            type="com.example.jahezfirsttask.presentation.register.RegisterViewModel" />
-    </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/frameLayout3"
@@ -60,23 +55,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/email"
-                app:endIconMode="clear_text">
+                app:endIconMode="clear_text"
+                app:errorEnabled="true">
 
-                <EditText
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/emailSignUpTV"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:hint="@string/email"
-                    android:inputType="textEmailAddress" />
-
-                <TextView
-                    android:id="@+id/emailErrorMassage"
-                    style="@style/errorMassage"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:text="@{viewModel.emailErrorMassage}" />
+                    android:lines="1"
+                    android:maxLines="1"
+                    android:singleLine="true" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -86,23 +74,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/password"
-                app:passwordToggleEnabled="true">
+                app:endIconMode="password_toggle"
+                app:errorEnabled="true">
 
-                <EditText
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/passwordSignUpTV"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:hint="@string/password"
                     android:inputType="textPassword" />
-
-                <TextView
-                    android:id="@+id/passwordErrorMassage"
-                    style="@style/errorMassage"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:text="@{viewModel.passwordErrorMassage}" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -112,23 +91,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/confirm_password"
-                app:passwordToggleEnabled="true">
+                app:endIconMode="password_toggle"
+                app:errorEnabled="true">
 
-
-                <EditText
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/confirmPasswordSignUpTV"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:ems="10"
                     android:inputType="textPassword" />
-
-                <TextView
-                    android:id="@+id/confirmPasswordErrorMassage"
-                    style="@style/errorMassage"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:text="@{viewModel.confirmPasswordErrorMassage}" />
 
             </com.google.android.material.textfield.TextInputLayout>
 

@@ -5,6 +5,13 @@ import androidx.databinding.ObservableInt
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.jahezfirsttask.R
+import com.example.jahezfirsttask.common.Constants.EMPTY_CONFIRM_PASSWORD
+import com.example.jahezfirsttask.common.Constants.EMPTY_EMAIL
+import com.example.jahezfirsttask.common.Constants.EMPTY_PASSWORD
+import com.example.jahezfirsttask.common.Constants.INVALID_EMAIL
+import com.example.jahezfirsttask.common.Constants.INVALID_PASSWORD
+import com.example.jahezfirsttask.common.Constants.PASSWORDS_NOT_MATCH
+import com.example.jahezfirsttask.common.Constants.VALID_INPUTS
 import com.example.jahezfirsttask.common.Result
 import com.example.jahezfirsttask.domain.useCase.authentication.RegisterUseCase
 import com.example.jahezfirsttask.domain.state.AuthenticationState
@@ -21,26 +28,18 @@ class RegisterViewModel @Inject constructor(
 
 ) : ViewModel() {
 
-    //ObservableInt() -> binding data with setting a value from string resource
-    val emailErrorMassage = ObservableInt()
-    val passwordErrorMassage = ObservableInt()
-    val confirmPasswordErrorMassage = ObservableInt()
-
-
-    //init Error Massage with empty string
-    init {
-        emailErrorMassage.set(R.string.empty_massage)
-        passwordErrorMassage.set(R.string.empty_massage)
-        confirmPasswordErrorMassage.set(R.string.empty_massage)
-    }
-
 
     //shared flow for register
     private val _registerSharedFlow = MutableSharedFlow<AuthenticationState>()
     val registerSharedFlow = _registerSharedFlow.asSharedFlow()
 
-    //Register
-    fun Register(email: String, password: String) {
+
+    //shared flow for Check the input fields validity
+    private val _inputState = MutableSharedFlow<List<Int>>()
+    val inputState = _inputState.asSharedFlow()
+
+    //Register]
+    fun register(email: String, password: String) {
 
         viewModelScope.launch {
             registerUseCase(email, password).onEach { result ->
@@ -71,63 +70,44 @@ class RegisterViewModel @Inject constructor(
     }
 
     //check if all field contain data and give error massage if not
-    fun checkDataValidity(email: String , password: String,confirmPassword:String) : Boolean {
-        var isAllDataFilled = true
+    fun checkDataValidity(email: String , password: String,confirmPassword:String) {
+        viewModelScope.launch {
+            var isAllDataValid = true
+            val inputStates = mutableListOf<Int>()
 
-        //check email
-        if (email.isEmpty() || email.isBlank()) {
-
-            emailErrorMassage.set(R.string.required)
-            isAllDataFilled = false
-        } else {
-            //check email validate
-            if (Validations.emailIsValid(email)){
-                emailErrorMassage.set(R.string.empty_massage)
-
-            }else{
-
-                isAllDataFilled = false
-                emailErrorMassage.set(R.string.invalid_email)
-                Log.d(TAG,"invalid_email")
-            }
-        }
-
-        //check password
-        if (password.isEmpty() || password.isBlank()) {
-            passwordErrorMassage.set(R.string.required)
-            isAllDataFilled = false
-
-        } else{
-
-            if(Validations.passwordIsValid(password)){
-                passwordErrorMassage.set(R.string.empty_massage)
-
-            }else{
-                //check password validate
-                isAllDataFilled = false
-                passwordErrorMassage.set(R.string.invalid_password_massage)
-                Log.d(TAG,"invalid_password_massage")
+            //check email
+            if (email.isBlank()) {
+                inputStates.add(EMPTY_EMAIL)
+                isAllDataValid = false
+            } else if (!Validations.emailIsValid(email)) {
+                inputStates.add(INVALID_EMAIL)
+                isAllDataValid = false
             }
 
+            //check password
+            if (password.isBlank()) {
+                isAllDataValid = false
+                inputStates.add(EMPTY_PASSWORD)
+            } else if (!Validations.passwordIsValid(password)) {
+                isAllDataValid = false
+                inputStates.add(INVALID_PASSWORD)
+            }
+
+            //check confirmPassword
+            if (confirmPassword.isBlank()) {
+                isAllDataValid = false
+                inputStates.add(EMPTY_CONFIRM_PASSWORD)
+            } else if (password != confirmPassword) {
+                isAllDataValid = false
+                inputStates.add(PASSWORDS_NOT_MATCH)
+            }
+
+            if (isAllDataValid) {
+                inputStates.clear()
+                inputStates.add(VALID_INPUTS)
+            }
+            Log.d(TAG, "ViewModel ---- input state list: $inputStates")
+            _inputState.emit(inputStates)
         }
-
-        //check confirmPassword
-        if (confirmPassword.isEmpty() || confirmPassword.isBlank()) {
-            confirmPasswordErrorMassage.set(R.string.required)
-
-            isAllDataFilled = false
-
-        }else if(password != confirmPassword){
-            confirmPasswordErrorMassage.set(R.string.password_not_match)
-
-            isAllDataFilled = false
-            Log.d(TAG,"password_not_match")
-
-        }else {
-            confirmPasswordErrorMassage.set(R.string.empty_massage)
-
-        }
-
-        return isAllDataFilled
     }
 }
