@@ -1,10 +1,8 @@
 package com.example.jahezfirsttask.presentation.register
 
 import android.util.Log
-import androidx.databinding.ObservableInt
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.jahezfirsttask.R
+import com.example.jahezfirsttask.base.BaseViewModel
 import com.example.jahezfirsttask.common.Constants.EMPTY_CONFIRM_PASSWORD
 import com.example.jahezfirsttask.common.Constants.EMPTY_EMAIL
 import com.example.jahezfirsttask.common.Constants.EMPTY_PASSWORD
@@ -14,7 +12,7 @@ import com.example.jahezfirsttask.common.Constants.PASSWORDS_NOT_MATCH
 import com.example.jahezfirsttask.common.Constants.VALID_INPUTS
 import com.example.jahezfirsttask.common.Result
 import com.example.jahezfirsttask.domain.useCase.authentication.RegisterUseCase
-import com.example.jahezfirsttask.domain.state.AuthenticationState
+import com.example.jahezfirsttask.domain.state.BaseUIState
 import com.example.jahezfirsttask.presentation.util.Validations
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
@@ -26,11 +24,11 @@ private const val TAG = "RegisterViewModel"
 class RegisterViewModel @Inject constructor(
     private val registerUseCase: RegisterUseCase,
 
-) : ViewModel() {
+) : BaseViewModel() {
 
 
     //shared flow for register
-    private val _registerSharedFlow = MutableSharedFlow<AuthenticationState>()
+    private val _registerSharedFlow = MutableSharedFlow<Boolean>()
     val registerSharedFlow = _registerSharedFlow.asSharedFlow()
 
 
@@ -48,18 +46,16 @@ class RegisterViewModel @Inject constructor(
 
                     is Result.Success -> {
 
-                        _registerSharedFlow.emit(AuthenticationState(isSuccess = true))
+                        _registerSharedFlow.emit( true)
+                        _baseUIState.emit(BaseUIState())
                     }
 
                     is Result.Error -> {
-                        _registerSharedFlow.emit( AuthenticationState(error = result.message ?: "An unaccepted error accrue"))
-
+                        _baseUIState.emit(BaseUIState(error = result.message ?: "An unaccepted error accrue"))
                     }
 
                     is Result.Loading -> {
-
-                        _registerSharedFlow.emit( AuthenticationState(isLoading = true))
-
+                        _baseUIState.emit(BaseUIState(isLoading = true))
                     }
                 }
 

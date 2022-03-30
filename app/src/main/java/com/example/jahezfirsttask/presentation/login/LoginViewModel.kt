@@ -1,21 +1,18 @@
 package com.example.jahezfirsttask.presentation.login
 
 
-import androidx.databinding.ObservableInt
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.jahezfirsttask.R
+import com.example.jahezfirsttask.base.BaseViewModel
 import com.example.jahezfirsttask.common.Constants.EMPTY_EMAIL
 import com.example.jahezfirsttask.common.Constants.EMPTY_PASSWORD
 import com.example.jahezfirsttask.common.Constants.INVALID_EMAIL
 import com.example.jahezfirsttask.common.Constants.VALID_INPUTS
 import com.example.jahezfirsttask.domain.useCase.authentication.IsUserAuthenticatedUseCase
 import com.example.jahezfirsttask.domain.useCase.authentication.LoginUseCase
-import com.example.jahezfirsttask.domain.state.AuthenticationState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import com.example.jahezfirsttask.common.Result
+import com.example.jahezfirsttask.domain.state.BaseUIState
 import com.example.jahezfirsttask.presentation.util.Validations
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -25,7 +22,7 @@ class LoginViewModel @Inject constructor(
     private val signeInUseCase: LoginUseCase,
     private val isUserAuthenticatedUseCase: IsUserAuthenticatedUseCase,
 
-) : ViewModel() {
+) : BaseViewModel() {
 
 
     //authentication
@@ -33,7 +30,7 @@ class LoginViewModel @Inject constructor(
     fun isUserAuthenticated()= isUserAuthenticatedUseCase.invoke()
 
     //shared flow for login
-    private val _loginSharedFlow = MutableSharedFlow<AuthenticationState>()
+    private val _loginSharedFlow = MutableSharedFlow<Boolean>()
     val loginSharedFlow = _loginSharedFlow.asSharedFlow()
 
 
@@ -52,17 +49,16 @@ class LoginViewModel @Inject constructor(
                 when (result) {
 
                     is Result.Success -> {
-
-                        _loginSharedFlow.emit(AuthenticationState(isSuccess = true))
+                        _loginSharedFlow.emit(true)
+                        _baseUIState.emit(BaseUIState())
                     }
 
                     is Result.Error -> {
-                        _loginSharedFlow.emit( AuthenticationState(error = result.message ?: "An unaccepted error accrue"))
+                        _baseUIState.emit(BaseUIState(error = result.message ?: "An unaccepted error accrue"))
 
                     }
-
                     is Result.Loading -> {
-                        _loginSharedFlow.emit( AuthenticationState(isLoading = true))
+                        _baseUIState.emit(BaseUIState(isLoading = true))
 
                     }
                 }

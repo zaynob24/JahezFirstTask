@@ -1,18 +1,16 @@
 package com.example.jahezfirsttask.presentation.restaurantList
 
 import android.util.Log
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.jahezfirsttask.domain.state.RestaurantListState
+import com.example.jahezfirsttask.base.BaseViewModel
 import com.example.jahezfirsttask.domain.useCase.authentication.SignOutUseCase
 import com.example.jahezfirsttask.domain.useCase.restaurantList.GetRestaurantUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 import com.example.jahezfirsttask.common.Result
+import com.example.jahezfirsttask.domain.model.Restaurant
+import com.example.jahezfirsttask.domain.state.BaseUIState
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 
@@ -22,7 +20,7 @@ class RestaurantListViewModel  @Inject constructor(
     private val getRestaurantUseCase : GetRestaurantUseCase,
     private val signOutUseCase: SignOutUseCase
 
-):ViewModel() {
+):BaseViewModel() {
 
     //authentication
     //signOut
@@ -31,7 +29,7 @@ class RestaurantListViewModel  @Inject constructor(
     //get Restaurant
 
     //state Flow
-    private val _stateFlow = MutableStateFlow(RestaurantListState())
+    private val _stateFlow = MutableStateFlow<List<Restaurant>>(emptyList())
     val stateFlow = _stateFlow.asStateFlow()
 
     init {
@@ -47,22 +45,25 @@ class RestaurantListViewModel  @Inject constructor(
 
                 when (result) {
 
-                    is Result.Success -> {
-                        _stateFlow.value = RestaurantListState(restaurant = result.data?: emptyList())
-                        Log.d(TAG,result.data.toString())
+                    is Result.Loading -> {
+                        _baseUIState.emit(BaseUIState(isLoading = true))
+                        Log.d(TAG,"loading")
 
                     }
+
                     is Result.Error -> {
-                        _stateFlow.value = RestaurantListState(error = result.message?:"An unaccepted error accrue")
+                        _baseUIState.emit(BaseUIState(error = result.message?:"An unaccepted error accrue"))
                         Log.d(TAG,result.message.toString())
 
                     }
 
-                    is Result.Loading -> {
-                        _stateFlow.value = RestaurantListState(isLoading = true)
-                        Log.d(TAG,"laoding")
+                    is Result.Success -> {
+                        _stateFlow.value = result.data?: emptyList()
+                        _baseUIState.emit(BaseUIState())
+                        Log.d(TAG,result.data.toString())
 
                     }
+
                 }
 
             }.launchIn(viewModelScope)

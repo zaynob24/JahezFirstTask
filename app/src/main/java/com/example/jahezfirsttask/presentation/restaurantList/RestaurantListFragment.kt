@@ -12,6 +12,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.jahezfirsttask.R
+import com.example.jahezfirsttask.base.BaseFragment
 import com.example.jahezfirsttask.databinding.FragmentRestaurantListBinding
 import com.example.jahezfirsttask.presentation.restaurantList.RestaurantListAdapter
 import com.example.jahezfirsttask.presentation.restaurantList.RestaurantListViewModel
@@ -22,7 +23,7 @@ import kotlinx.coroutines.launch
 
 private const val TAG = "RestaurantListFragment"
 @AndroidEntryPoint
-class RestaurantListFragment : Fragment() {
+class RestaurantListFragment : BaseFragment() {
 
     private lateinit var binding: FragmentRestaurantListBinding
     private val restaurantViewModel : RestaurantListViewModel by activityViewModels()
@@ -40,6 +41,8 @@ class RestaurantListFragment : Fragment() {
 
         // Inflate the layout for this fragment
         binding = FragmentRestaurantListBinding.inflate(layoutInflater, container, false)
+        setBaseViewModel(restaurantViewModel)
+        setUIState()
         return binding.root
     }
 
@@ -68,38 +71,14 @@ class RestaurantListFragment : Fragment() {
         //restaurant List stateFlow
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                restaurantViewModel.stateFlow.collectLatest {  restaurantListState ->
+                restaurantViewModel.stateFlow.collectLatest {  restaurantList ->
 
-                    when{
-
-                        restaurantListState.isLoading ->{
-                            //show progress Bar
-                            binding.progressBar2.visibility = View.VISIBLE
-                            Log.d(TAG,"is Loading")
-                        }
-
-                        restaurantListState.restaurant.isNotEmpty() ->{
-                            //hide progress Bar
-                            binding.progressBar2.visibility = View.INVISIBLE
-                            Log.d(TAG,restaurantListState.restaurant.toString())
-                            // submit the list of restaurants to the recyclerView Adapter
-                            restaurantListAdapter.submitList(restaurantListState.restaurant)
-
-                        }
-
-                        restaurantListState.error.isNotBlank() ->{
-                            //hide progress Bar
-                            binding.progressBar2.visibility =  View.INVISIBLE
-                            Log.d(TAG,restaurantListState.error)
-                            //show error massage
-                            Toast.makeText(requireActivity(), restaurantListState.error, Toast.LENGTH_SHORT).show()
-                        }
-
-                    }
-                }
+                  if(restaurantList.isNotEmpty()){
+                          Log.d(TAG,restaurantList.toString())
+                          // submit the list of restaurants to the recyclerView Adapter
+                          restaurantListAdapter.submitList(restaurantList) } } }
             }
         }
-    }
 
     //-----Options Menu filtering
 
@@ -115,20 +94,20 @@ class RestaurantListFragment : Fragment() {
 
             R.id.show_all -> {
                 Log.d(TAG,"show_all")
-                restaurantListAdapter.submitList(restaurantViewModel.stateFlow.value.restaurant)
-                Log.d(TAG,restaurantViewModel.stateFlow.value.restaurant.toString())
+                restaurantListAdapter.submitList(restaurantViewModel.stateFlow.value)
+                Log.d(TAG,restaurantViewModel.stateFlow.value.toString())
                 true
             }
             R.id.offers -> {
                 Log.d(TAG,"offers")
-                restaurantListAdapter.submitList(restaurantViewModel.stateFlow.value.restaurant.filter { it.hasOffer })
-                Log.d(TAG,restaurantViewModel.stateFlow.value.restaurant.filter { it.hasOffer }.toString())
+                restaurantListAdapter.submitList(restaurantViewModel.stateFlow.value.filter { it.hasOffer })
+                Log.d(TAG,restaurantViewModel.stateFlow.value.filter { it.hasOffer }.toString())
                 true
             }
             R.id.distance -> {
                 Log.d(TAG,"distance")
-                restaurantListAdapter.submitList(restaurantViewModel.stateFlow.value.restaurant.sortedByDescending { it.distance })
-                Log.d(TAG,restaurantViewModel.stateFlow.value.restaurant.sortedByDescending { it.distance }.toString())
+                restaurantListAdapter.submitList(restaurantViewModel.stateFlow.value.sortedByDescending { it.distance })
+                Log.d(TAG,restaurantViewModel.stateFlow.value.sortedByDescending { it.distance }.toString())
                 true
             }
 
