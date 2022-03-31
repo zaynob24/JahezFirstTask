@@ -10,6 +10,7 @@ import javax.inject.Inject
 import com.example.jahezfirsttask.common.Result
 import com.example.jahezfirsttask.domain.model.Restaurant
 import com.example.jahezfirsttask.domain.state.BaseUIState
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
@@ -38,7 +39,7 @@ class RestaurantListViewModel  @Inject constructor(
     }
     private fun getRestaurant() {
 
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
 
             //because we use invoke() fun .. we can use class name as function..getRestaurantUseCase()
             getRestaurantUseCase().onEach { result ->
@@ -46,8 +47,10 @@ class RestaurantListViewModel  @Inject constructor(
                 when (result) {
 
                     is Result.Loading -> {
+
                         _baseUIState.emit(BaseUIState(isLoading = true))
                         Log.d(TAG,"loading")
+
 
                     }
 
