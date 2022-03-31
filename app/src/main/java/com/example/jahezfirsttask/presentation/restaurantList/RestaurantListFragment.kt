@@ -36,28 +36,27 @@ class RestaurantListFragment : BaseFragment() {
 
         // Inflate the layout for this fragment
         binding = FragmentRestaurantListBinding.inflate(layoutInflater, container, false)
-        setBaseViewModel(restaurantViewModel)
-        setUIState()
+        init()
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        init()
         //Get Restaurant List
         initCollectFlow()
     }
 
     private fun init() {
 
+        //assign this viewModel to base viewModel
+        setBaseViewModel(restaurantViewModel)
+        setUIState()
+
         //initiate the adapter and assigned to recyclerview
         restaurantListAdapter = RestaurantListAdapter()
         binding.itemRecyclerview.adapter = restaurantListAdapter
 
-        //-----Get Restaurant List
-        //call view model to get restaurant List
-        restaurantViewModel
     }
 
     //Get Restaurant List by Collect Flow

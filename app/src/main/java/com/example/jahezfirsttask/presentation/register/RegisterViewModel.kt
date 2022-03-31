@@ -15,6 +15,7 @@ import com.example.jahezfirsttask.domain.useCase.authentication.RegisterUseCase
 import com.example.jahezfirsttask.domain.state.BaseUIState
 import com.example.jahezfirsttask.presentation.util.Validations
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -39,7 +40,7 @@ class RegisterViewModel @Inject constructor(
     //Register]
     fun register(email: String, password: String) {
 
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             registerUseCase(email, password).onEach { result ->
 
                 when (result) {
@@ -102,7 +103,7 @@ class RegisterViewModel @Inject constructor(
                 inputStates.clear()
                 inputStates.add(VALID_INPUTS)
             }
-            Log.d(TAG, "ViewModel ---- input state list: $inputStates")
+            Log.d(TAG, "ViewModelStateList: $inputStates")
             _inputState.emit(inputStates)
         }
     }

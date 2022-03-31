@@ -14,6 +14,7 @@ import kotlinx.coroutines.flow.*
 import com.example.jahezfirsttask.common.Result
 import com.example.jahezfirsttask.domain.state.BaseUIState
 import com.example.jahezfirsttask.presentation.util.Validations
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -42,7 +43,7 @@ class LoginViewModel @Inject constructor(
     //Login
     fun login(email: String, password: String) {
 
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
 
             signeInUseCase(email, password).onEach { result ->
 

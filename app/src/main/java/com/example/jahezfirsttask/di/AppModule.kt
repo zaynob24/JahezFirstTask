@@ -19,7 +19,7 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class) //This mean : all module dependency live as long as application does
 object AppModule {
 
-                   //-------------------------For firebase--------------------------------//
+    //For firebase
     @Provides
     fun provideFirebaseAuth() = FirebaseAuth.getInstance()
 
@@ -30,7 +30,7 @@ object AppModule {
     }
 
 
-                //-------------------------For API---------------------------------------//
+     //For API
 
     @Provides
     @Singleton //This mean : make sure there is only single instance throw the whole time of our app

@@ -2,7 +2,6 @@ package com.example.jahezfirsttask.data.repository
 
 import com.example.jahezfirsttask.common.Result
 import com.example.jahezfirsttask.domain.repository.IAuthRepository
-import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

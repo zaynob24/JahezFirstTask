@@ -2,7 +2,6 @@ package com.example.jahezfirsttask.base
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.NavController
