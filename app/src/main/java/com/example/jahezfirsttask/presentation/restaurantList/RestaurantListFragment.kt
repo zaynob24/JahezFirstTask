@@ -57,6 +57,8 @@ class RestaurantListFragment : BaseFragment() {
         restaurantListAdapter = RestaurantListAdapter()
         binding.itemRecyclerview.adapter = restaurantListAdapter
 
+        restaurantViewModel.getRestaurant()
+
     }
 
     //Get Restaurant List by Collect Flow
